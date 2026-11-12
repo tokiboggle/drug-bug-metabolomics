@@ -1,6 +1,6 @@
 # AI use log
 
-The exam requires a short reflection on what AI you used, what for, and how you checked it (project guidelines). The guidelines also say: check every gene, number and reference; understand every step well enough to explain it yourself; and declare what you used, as in the Week 1 AI disclosure.
+We note what AI tools we used, what for, and how we checked the output. Check every gene, number and reference, and understand every step well enough to explain it yourself.
 
 Add a row each time someone uses an AI tool for this project.
 
