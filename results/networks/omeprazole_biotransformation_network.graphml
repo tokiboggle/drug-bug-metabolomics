@@ -1,0 +1,1079 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d11" for="edge" attr.name="temporal_pearson_r" attr.type="double" />
+  <key id="d10" for="edge" attr.name="mass_error_mDa" attr.type="float" />
+  <key id="d9" for="edge" attr.name="delta_mz" attr.type="double" />
+  <key id="d8" for="edge" attr.name="transformation" attr.type="string" />
+  <key id="d7" for="node" attr.name="annotated" attr.type="boolean" />
+  <key id="d6" for="node" attr.name="kinetic_module" attr.type="string" />
+  <key id="d5" for="node" attr.name="peak_tp" attr.type="string" />
+  <key id="d4" for="node" attr.name="spearman_time_omepr" attr.type="double" />
+  <key id="d3" for="node" attr.name="max_omepr_pqn" attr.type="double" />
+  <key id="d2" for="node" attr.name="rt" attr.type="double" />
+  <key id="d1" for="node" attr.name="mz" attr.type="double" />
+  <key id="d0" for="node" attr.name="label" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="1553">
+      <data key="d0">ID 1553 (225.07)</data>
+      <data key="d1">225.06960638743047</data>
+      <data key="d2">0.86182094</data>
+      <data key="d3">3248958.000251124</data>
+      <data key="d4">0.985244575823366</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="1604">
+      <data key="d0">ID 1604 (223.05)</data>
+      <data key="d1">223.05376879293033</data>
+      <data key="d2">0.877433</data>
+      <data key="d3">397532.40930453944</data>
+      <data key="d4">0.13793987648416034</data>
+      <data key="d5">T4</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="1677">
+      <data key="d0">ID 1677 (195.06)</data>
+      <data key="d1">195.05876472878873</data>
+      <data key="d2">0.91962165</data>
+      <data key="d3">22599292.72506642</data>
+      <data key="d4">0.73115350881812</data>
+      <data key="d5">T4</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="1775">
+      <data key="d0">ID 1775 (242.12)</data>
+      <data key="d1">242.12086656711824</data>
+      <data key="d2">1.0044446</data>
+      <data key="d3">5498891.01691275</data>
+      <data key="d4">0.9700989162029043</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2027">
+      <data key="d0">ID 2027 (260.08)</data>
+      <data key="d1">260.077401309518</data>
+      <data key="d2">1.2074127</data>
+      <data key="d3">3160353.0366237722</data>
+      <data key="d4">0.9371399182177736</data>
+      <data key="d5">T5</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2311">
+      <data key="d0">ID 2311 (346.12)</data>
+      <data key="d1">346.1218738157867</data>
+      <data key="d2">1.3771055</data>
+      <data key="d3">334106.35237049294</data>
+      <data key="d4">0.9372563498794064</data>
+      <data key="d5">T7</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2362">
+      <data key="d0">ID 2362 (312.13)</data>
+      <data key="d1">312.13357508775425</data>
+      <data key="d2">1.4229317</data>
+      <data key="d3">2695678.0707760802</data>
+      <data key="d4">-0.3337234370282017</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2368">
+      <data key="d0">ID 2368 (274.06)</data>
+      <data key="d1">274.0564852698378</data>
+      <data key="d2">1.4262986</data>
+      <data key="d3">19928863.737313993</data>
+      <data key="d4">0.9752581987991961</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2379">
+      <data key="d0">ID 2379 (288.07)</data>
+      <data key="d1">288.0721025986805</data>
+      <data key="d2">1.4372602</data>
+      <data key="d3">124959.45210552345</data>
+      <data key="d4">0.9300254031677024</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2417">
+      <data key="d0">ID 2417 (296.14)</data>
+      <data key="d1">296.13923074773055</data>
+      <data key="d2">1.4684947</data>
+      <data key="d3">2679683.374255761</data>
+      <data key="d4">-0.5464462181500402</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2465">
+      <data key="d0">Omeprazole 4-desmethylthioet</data>
+      <data key="d1">316.11129029253703</data>
+      <data key="d2">1.5046934</data>
+      <data key="d3">3148677.890993863</data>
+      <data key="d4">0.8657785993306628</data>
+      <data key="d5">T7</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">True</data>
+    </node>
+    <node id="2478">
+      <data key="d0">ID 2478 (298.15)</data>
+      <data key="d1">298.15497760985335</data>
+      <data key="d2">1.5226227</data>
+      <data key="d3">8160072.498018372</data>
+      <data key="d4">-0.43869210529087205</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2480">
+      <data key="d0">37052-78-1</data>
+      <data key="d1">181.04303534769343</data>
+      <data key="d2">1.5231498</data>
+      <data key="d3">19075248.41007228</data>
+      <data key="d4">0.8828001624989154</data>
+      <data key="d5">T6</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">True</data>
+    </node>
+    <node id="2494">
+      <data key="d0">ID 2494 (180.04)</data>
+      <data key="d1">180.035316828113</data>
+      <data key="d2">1.5321707</data>
+      <data key="d3">5720933.972158388</data>
+      <data key="d4">0.7756416852805982</data>
+      <data key="d5">T4</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2497">
+      <data key="d0">ID 2497 (296.14)</data>
+      <data key="d1">296.13931442873303</data>
+      <data key="d2">1.5362568</data>
+      <data key="d3">5185651.693215434</data>
+      <data key="d4">-0.6030582436904572</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2500">
+      <data key="d0">ID 2500 (344.14)</data>
+      <data key="d1">344.1426281870177</data>
+      <data key="d2">1.5454394</data>
+      <data key="d3">13651263.746298084</data>
+      <data key="d4">0.7419854126524624</data>
+      <data key="d5">T4</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2618">
+      <data key="d0">ID 2618 (360.14)</data>
+      <data key="d1">360.137559283365</data>
+      <data key="d2">1.6153784</data>
+      <data key="d3">392695.617215018</data>
+      <data key="d4">0.8684865752892483</data>
+      <data key="d5">T6</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2626">
+      <data key="d0">ID 2626 (346.12)</data>
+      <data key="d1">346.1203644750354</data>
+      <data key="d2">1.6316696</data>
+      <data key="d3">433139.3976245206</data>
+      <data key="d4">0.944467799922123</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2658">
+      <data key="d0">ID 2658 (306.06)</data>
+      <data key="d1">306.06479662815246</data>
+      <data key="d2">1.6374222</data>
+      <data key="d3">117272.08411354078</data>
+      <data key="d4">0.8543669833024959</data>
+      <data key="d5">T5</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2678">
+      <data key="d0">ID 2678 (288.07)</data>
+      <data key="d1">288.0721497305312</data>
+      <data key="d2">1.6618798</data>
+      <data key="d3">2339224.8539220593</data>
+      <data key="d4">0.9280620463781323</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2685">
+      <data key="d0">ID 2685 (326.15)</data>
+      <data key="d1">326.14993989358294</data>
+      <data key="d2">1.6705198</data>
+      <data key="d3">4187042.845761566</data>
+      <data key="d4">-0.46796204724759793</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2693">
+      <data key="d0">ID 2693 (196.10)</data>
+      <data key="d1">196.09689612245444</data>
+      <data key="d2">1.6719615</data>
+      <data key="d3">1489713.8592799243</data>
+      <data key="d4">-0.25377603269031046</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2719">
+      <data key="d0">ID 2719 (342.14)</data>
+      <data key="d1">342.144839704656</data>
+      <data key="d2">1.6835265</data>
+      <data key="d3">25259180.90186052</data>
+      <data key="d4">-0.3152857723210411</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2828">
+      <data key="d0">omeprazole</data>
+      <data key="d1">346.12176674786895</data>
+      <data key="d2">1.777913</data>
+      <data key="d3">18631825.208269514</data>
+      <data key="d4">0.0775073395665417</data>
+      <data key="d5">T4</data>
+      <data key="d6">M2: Mid-Late Transients (Peak T4-T5)</data>
+      <data key="d7">True</data>
+    </node>
+    <node id="2838">
+      <data key="d0">ID 2838 (406.13)</data>
+      <data key="d1">406.12532615500356</data>
+      <data key="d2">1.7839733</data>
+      <data key="d3">3104110.5598550774</data>
+      <data key="d4">0.35783968024167245</data>
+      <data key="d5">T3</data>
+      <data key="d6">M2: Mid-Late Transients (Peak T4-T5)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="2962">
+      <data key="d0">UFIPRAZOLE</data>
+      <data key="d1">330.1269989198353</data>
+      <data key="d2">1.8976107</data>
+      <data key="d3">563764364.5859473</data>
+      <data key="d4">0.9756450525075655</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">True</data>
+    </node>
+    <node id="3256">
+      <data key="d0">ID 3256 (358.12)</data>
+      <data key="d1">358.1217410461339</data>
+      <data key="d2">2.0259914</data>
+      <data key="d3">1545985.1275569776</data>
+      <data key="d4">-0.5924988581005465</data>
+      <data key="d5">T4</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="3493">
+      <data key="d0">ID 3493 (488.13)</data>
+      <data key="d1">488.13098340871375</data>
+      <data key="d2">2.1348581</data>
+      <data key="d3">4939081.704765041</data>
+      <data key="d4">0.22476200456260725</data>
+      <data key="d5">T4</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="3516">
+      <data key="d0">ID 3516 (456.16)</data>
+      <data key="d1">456.1589491383768</data>
+      <data key="d2">2.1395826</data>
+      <data key="d3">4682047.931367994</data>
+      <data key="d4">0.8133229182880927</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="3605">
+      <data key="d0">ID 3605 (344.14)</data>
+      <data key="d1">344.1427324375676</data>
+      <data key="d2">2.1745641</data>
+      <data key="d3">27176118.66692754</data>
+      <data key="d4">0.746627657152895</data>
+      <data key="d5">T4</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="3626">
+      <data key="d0">ID 3626 (360.14)</data>
+      <data key="d1">360.1380564277687</data>
+      <data key="d2">2.180561</data>
+      <data key="d3">85770.19465446546</data>
+      <data key="d4">0.27882027751931016</data>
+      <data key="d5">T4</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="3654">
+      <data key="d0">ID 3654 (471.15)</data>
+      <data key="d1">471.15207571401726</data>
+      <data key="d2">2.1950974</data>
+      <data key="d3">63457.00337700636</data>
+      <data key="d4">-0.5135097344032986</data>
+      <data key="d5">T3</data>
+      <data key="d6">M4: Early Precursors Depleted (T0-T3-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="3779">
+      <data key="d0">ID 3779 (284.14)</data>
+      <data key="d1">284.1394462258217</data>
+      <data key="d2">2.2298217</data>
+      <data key="d3">2269972.113143881</data>
+      <data key="d4">0.7539778776119133</data>
+      <data key="d5">T7</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="4157">
+      <data key="d0">omeprazole</data>
+      <data key="d1">328.1114445494814</data>
+      <data key="d2">2.4139814</data>
+      <data key="d3">737567.5676115301</data>
+      <data key="d4">-0.35629226540819503</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">True</data>
+    </node>
+    <node id="4380">
+      <data key="d0">Omeprazole 4-desmethylthioet</data>
+      <data key="d1">316.1116497436596</data>
+      <data key="d2">2.5155134</data>
+      <data key="d3">967052.8372229423</data>
+      <data key="d4">0.5744777569285229</data>
+      <data key="d5">T5</data>
+      <data key="d6">M2: Mid-Late Transients (Peak T4-T5)</data>
+      <data key="d7">True</data>
+    </node>
+    <node id="4470">
+      <data key="d0">ID 4470 (328.13)</data>
+      <data key="d1">328.12917138221417</data>
+      <data key="d2">2.5550127</data>
+      <data key="d3">22110527.795892786</data>
+      <data key="d4">-0.3690584377843844</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="4516">
+      <data key="d0">ID 4516 (392.11)</data>
+      <data key="d1">392.10986775196477</data>
+      <data key="d2">2.572588</data>
+      <data key="d3">1603978.4219801452</data>
+      <data key="d4">0.7412117052357238</data>
+      <data key="d5">T4</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="4709">
+      <data key="d0">ID 4709 (338.10)</data>
+      <data key="d1">338.0974486372724</data>
+      <data key="d2">2.6754508</data>
+      <data key="d3">6153828.677778602</data>
+      <data key="d4">-0.05957547108888385</data>
+      <data key="d5">T4</data>
+      <data key="d6">M2: Mid-Late Transients (Peak T4-T5)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="4812">
+      <data key="d0">ID 4812 (345.11)</data>
+      <data key="d1">345.10594552681425</data>
+      <data key="d2">2.7195292</data>
+      <data key="d3">1424137.0767427126</data>
+      <data key="d4">-0.16363911864024594</data>
+      <data key="d5">T0</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="5015">
+      <data key="d0">ID 5015 (312.13)</data>
+      <data key="d1">312.13441886648724</data>
+      <data key="d2">2.826192</data>
+      <data key="d3">2855078.957603039</data>
+      <data key="d4">-0.33501531144787927</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="5096">
+      <data key="d0">ID 5096 (474.12)</data>
+      <data key="d1">474.11543723835155</data>
+      <data key="d2">2.852863</data>
+      <data key="d3">5149832.027359852</data>
+      <data key="d4">0.7470145108612645</data>
+      <data key="d5">T7</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="5486">
+      <data key="d0">ID 5486 (671.21)</data>
+      <data key="d1">671.2109762403378</data>
+      <data key="d2">3.0352259</data>
+      <data key="d3">3653992.0481232903</data>
+      <data key="d4">-0.3396575559483118</data>
+      <data key="d5">T4</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="5664">
+      <data key="d0">ID 5664 (441.19)</data>
+      <data key="d1">441.1857984654714</data>
+      <data key="d2">3.0924933</data>
+      <data key="d3">82950.60438160655</data>
+      <data key="d4">0.9826084192582143</data>
+      <data key="d5">T8</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="5805">
+      <data key="d0">ID 5805 (522.13)</data>
+      <data key="d1">522.1269652202626</data>
+      <data key="d2">3.1482317</data>
+      <data key="d3">1340259.356672153</data>
+      <data key="d4">0.9021428479173841</data>
+      <data key="d5">T7</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="5907">
+      <data key="d0">ID 5907 (312.12)</data>
+      <data key="d1">312.1241370811108</data>
+      <data key="d2">3.182316</data>
+      <data key="d3">3270955.388560313</data>
+      <data key="d4">-0.140041042429714</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="5918">
+      <data key="d0">ID 5918 (327.10)</data>
+      <data key="d1">327.1025378822265</data>
+      <data key="d2">3.1845727</data>
+      <data key="d3">1759783.9148925445</data>
+      <data key="d4">0.13888048130460587</data>
+      <data key="d5">T4</data>
+      <data key="d6">M2: Mid-Late Transients (Peak T4-T5)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="6225">
+      <data key="d0">ID 6225 (315.10)</data>
+      <data key="d1">315.10338013644025</data>
+      <data key="d2">3.326162</data>
+      <data key="d3">4465248.1744002765</data>
+      <data key="d4">0.6611329876032631</data>
+      <data key="d5">T4</data>
+      <data key="d6">M2: Mid-Late Transients (Peak T4-T5)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="6545">
+      <data key="d0">ID 6545 (331.09)</data>
+      <data key="d1">331.08967009141645</data>
+      <data key="d2">3.4656217</data>
+      <data key="d3">7100019.7676003175</data>
+      <data key="d4">0.6383086188094699</data>
+      <data key="d5">T7</data>
+      <data key="d6">M1: Monotonic Accumulation (T0-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="6564">
+      <data key="d0">ID 6564 (461.18)</data>
+      <data key="d1">461.18207048096906</data>
+      <data key="d2">3.4752855</data>
+      <data key="d3">2226398.7716829036</data>
+      <data key="d4">0.36789787665927626</data>
+      <data key="d5">T4</data>
+      <data key="d6">M2: Mid-Late Transients (Peak T4-T5)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="7139">
+      <data key="d0">ID 7139 (657.19)</data>
+      <data key="d1">657.194888862728</data>
+      <data key="d2">3.7868567</data>
+      <data key="d3">5496094.711175009</data>
+      <data key="d4">-0.10754533092668643</data>
+      <data key="d5">T4</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="7841">
+      <data key="d0">ID 7841 (312.08)</data>
+      <data key="d1">312.0802088660601</data>
+      <data key="d2">4.2140846</data>
+      <data key="d3">3452776.021048645</data>
+      <data key="d4">-0.29594308690257237</data>
+      <data key="d5">T3</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="7952">
+      <data key="d0">ID 7952 (296.10)</data>
+      <data key="d1">296.1031200097039</data>
+      <data key="d2">4.270083</data>
+      <data key="d3">1750563.4160830907</data>
+      <data key="d4">-0.10135567159277643</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="8031">
+      <data key="d0">ID 8031 (312.08)</data>
+      <data key="d1">312.080239493324</data>
+      <data key="d2">4.3424892</data>
+      <data key="d3">6552948.196375376</data>
+      <data key="d4">-0.18994517080936346</data>
+      <data key="d5">T3</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="8149">
+      <data key="d0">ID 8149 (717.16)</data>
+      <data key="d1">717.1622640517918</data>
+      <data key="d2">4.3940287</data>
+      <data key="d3">2001885.1174467606</data>
+      <data key="d4">-0.09247582182248056</data>
+      <data key="d5">T3</data>
+      <data key="d6">M3: Early-Mid Intermediates (Peak T2-T3)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="8926">
+      <data key="d0">ID 8926 (602.31)</data>
+      <data key="d1">602.3080230283928</data>
+      <data key="d2">4.803723</data>
+      <data key="d3">1261112.027300711</data>
+      <data key="d4">-0.883573869915654</data>
+      <data key="d5">T0</data>
+      <data key="d6">M4: Early Precursors Depleted (T0-T3-&gt;T8)</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="9575">
+      <data key="d0">ID 9575 (326.10)</data>
+      <data key="d1">326.0958588444231</data>
+      <data key="d2">5.032393</data>
+      <data key="d3">2641387.220841119</data>
+      <data key="d4">-0.3694452914927538</data>
+      <data key="d5">T3</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <node id="10350">
+      <data key="d0">ID 10350 (588.29)</data>
+      <data key="d1">588.2926840548884</data>
+      <data key="d2">5.4166117</data>
+      <data key="d3">1264089.0131105497</data>
+      <data key="d4">0.5470111436342973</data>
+      <data key="d5">T7</data>
+      <data key="d6">Other</data>
+      <data key="d7">False</data>
+    </node>
+    <edge source="1553" target="1604">
+      <data key="d8">Hydrogenation / Dehydrogenation (±H2)</data>
+      <data key="d9">-2.0158</data>
+      <data key="d10">0.19</data>
+      <data key="d11">0.219</data>
+    </edge>
+    <edge source="1553" target="2480">
+      <data key="d8">Hydroxyethyl / Ethoxy Shift (±C2H4O)</data>
+      <data key="d9">-44.0266</data>
+      <data key="d10">0.36</data>
+      <data key="d11">0.982</data>
+    </edge>
+    <edge source="1604" target="1677">
+      <data key="d8">Formylation / CO Shift (±CO)</data>
+      <data key="d9">-27.995</data>
+      <data key="d10">0.09</data>
+      <data key="d11">0.166</data>
+    </edge>
+    <edge source="1604" target="2480">
+      <data key="d8">Acetylation (±C2H2O)</data>
+      <data key="d9">-42.0107</data>
+      <data key="d10">0.17</data>
+      <data key="d11">0.127</data>
+    </edge>
+    <edge source="1677" target="2480">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0157</data>
+      <data key="d10">0.08</data>
+      <data key="d11">0.966</data>
+    </edge>
+    <edge source="1677" target="2500">
+      <data key="d8">C-S Pyridine Cleavage (±C9H11NO)</data>
+      <data key="d9">149.0839</data>
+      <data key="d10">0.2</data>
+      <data key="d11">0.997</data>
+    </edge>
+    <edge source="1677" target="3605">
+      <data key="d8">C-S Pyridine Cleavage (±C9H11NO)</data>
+      <data key="d9">149.084</data>
+      <data key="d10">0.1</data>
+      <data key="d11">0.994</data>
+    </edge>
+    <edge source="2027" target="2379">
+      <data key="d8">Formylation / CO Shift (±CO)</data>
+      <data key="d9">27.9947</data>
+      <data key="d10">0.21</data>
+      <data key="d11">0.825</data>
+    </edge>
+    <edge source="2027" target="2678">
+      <data key="d8">Formylation / CO Shift (±CO)</data>
+      <data key="d9">27.9947</data>
+      <data key="d10">0.17</data>
+      <data key="d11">0.983</data>
+    </edge>
+    <edge source="2311" target="2618">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0157</data>
+      <data key="d10">0.04</data>
+      <data key="d11">0.854</data>
+    </edge>
+    <edge source="2311" target="2962">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">-15.9949</data>
+      <data key="d10">0.04</data>
+      <data key="d11">0.944</data>
+    </edge>
+    <edge source="2311" target="3626">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0162</data>
+      <data key="d10">0.53</data>
+      <data key="d11">0.447</data>
+    </edge>
+    <edge source="2311" target="3654">
+      <data key="d8">Conjugation +C6H7NS (Pakkir Shah et al.)</data>
+      <data key="d9">125.0302</data>
+      <data key="d10">0.28</data>
+      <data key="d11">-0.791</data>
+    </edge>
+    <edge source="2311" target="4157">
+      <data key="d8">Hydration / Dehydration (±H2O)</data>
+      <data key="d9">-18.0104</data>
+      <data key="d10">0.14</data>
+      <data key="d11">-0.406</data>
+    </edge>
+    <edge source="2311" target="4470">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">-17.9927</data>
+      <data key="d10">0.1</data>
+      <data key="d11">-0.488</data>
+    </edge>
+    <edge source="2362" target="2417">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">-15.9943</data>
+      <data key="d10">0.57</data>
+      <data key="d11">0.943</data>
+    </edge>
+    <edge source="2362" target="2497">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">-15.9943</data>
+      <data key="d10">0.65</data>
+      <data key="d11">0.938</data>
+    </edge>
+    <edge source="2362" target="2685">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0164</data>
+      <data key="d10">0.71</data>
+      <data key="d11">0.966</data>
+    </edge>
+    <edge source="2362" target="2962">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">17.9934</data>
+      <data key="d10">0.62</data>
+      <data key="d11">-0.332</data>
+    </edge>
+    <edge source="2362" target="3779">
+      <data key="d8">Formylation / CO Shift (±CO)</data>
+      <data key="d9">-27.9941</data>
+      <data key="d10">0.79</data>
+      <data key="d11">-0.411</data>
+    </edge>
+    <edge source="2362" target="4470">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">15.9956</data>
+      <data key="d10">0.68</data>
+      <data key="d11">0.879</data>
+    </edge>
+    <edge source="2368" target="2379">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0156</data>
+      <data key="d10">0.03</data>
+      <data key="d11">0.91</data>
+    </edge>
+    <edge source="2368" target="2678">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0157</data>
+      <data key="d10">0.01</data>
+      <data key="d11">0.996</data>
+    </edge>
+    <edge source="2379" target="2658">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">17.9927</data>
+      <data key="d10">0.11</data>
+      <data key="d11">0.973</data>
+    </edge>
+    <edge source="2417" target="2478">
+      <data key="d8">Hydrogenation / Dehydrogenation (±H2)</data>
+      <data key="d9">2.0157</data>
+      <data key="d10">0.1</data>
+      <data key="d11">0.806</data>
+    </edge>
+    <edge source="2417" target="5015">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">15.9952</data>
+      <data key="d10">0.27</data>
+      <data key="d11">0.774</data>
+    </edge>
+    <edge source="2465" target="2618">
+      <data key="d8">Hydroxyethyl / Ethoxy Shift (±C2H4O)</data>
+      <data key="d9">44.0263</data>
+      <data key="d10">0.05</data>
+      <data key="d11">0.957</data>
+    </edge>
+    <edge source="2465" target="2962">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0157</data>
+      <data key="d10">0.06</data>
+      <data key="d11">0.979</data>
+    </edge>
+    <edge source="2465" target="3256">
+      <data key="d8">Acetylation (±C2H2O)</data>
+      <data key="d9">42.0105</data>
+      <data key="d10">0.11</data>
+      <data key="d11">-0.478</data>
+    </edge>
+    <edge source="2465" target="3626">
+      <data key="d8">Hydroxyethyl / Ethoxy Shift (±C2H4O)</data>
+      <data key="d9">44.0268</data>
+      <data key="d10">0.55</data>
+      <data key="d11">0.483</data>
+    </edge>
+    <edge source="2478" target="2497">
+      <data key="d8">Hydrogenation / Dehydrogenation (±H2)</data>
+      <data key="d9">-2.0157</data>
+      <data key="d10">0.01</data>
+      <data key="d11">0.834</data>
+    </edge>
+    <edge source="2478" target="2685">
+      <data key="d8">Formylation / CO Shift (±CO)</data>
+      <data key="d9">27.995</data>
+      <data key="d10">0.05</data>
+      <data key="d11">0.837</data>
+    </edge>
+    <edge source="2478" target="3779">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0155</data>
+      <data key="d10">0.12</data>
+      <data key="d11">-0.465</data>
+    </edge>
+    <edge source="2480" target="2962">
+      <data key="d8">C-S Pyridine Cleavage (±C9H11NO)</data>
+      <data key="d9">149.084</data>
+      <data key="d10">0.1</data>
+      <data key="d11">0.99</data>
+    </edge>
+    <edge source="2497" target="5015">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">15.9951</data>
+      <data key="d10">0.19</data>
+      <data key="d11">0.799</data>
+    </edge>
+    <edge source="2500" target="2618">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">15.9949</data>
+      <data key="d10">0.02</data>
+      <data key="d11">0.951</data>
+    </edge>
+    <edge source="2500" target="2685">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">-17.9927</data>
+      <data key="d10">0.12</data>
+      <data key="d11">-0.342</data>
+    </edge>
+    <edge source="2500" target="2962">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0156</data>
+      <data key="d10">0.02</data>
+      <data key="d11">0.943</data>
+    </edge>
+    <edge source="2500" target="3626">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">15.9954</data>
+      <data key="d10">0.51</data>
+      <data key="d11">0.608</data>
+    </edge>
+    <edge source="2618" target="2626">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0172</data>
+      <data key="d10">1.54</data>
+      <data key="d11">0.957</data>
+    </edge>
+    <edge source="2618" target="2719">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">-17.9927</data>
+      <data key="d10">0.09</data>
+      <data key="d11">0.096</data>
+    </edge>
+    <edge source="2618" target="2828">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0158</data>
+      <data key="d10">0.14</data>
+      <data key="d11">0.441</data>
+    </edge>
+    <edge source="2618" target="3256">
+      <data key="d8">Hydrogenation / Dehydrogenation (±H2)</data>
+      <data key="d9">-2.0158</data>
+      <data key="d10">0.17</data>
+      <data key="d11">-0.326</data>
+    </edge>
+    <edge source="2618" target="3605">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">-15.9948</data>
+      <data key="d10">0.09</data>
+      <data key="d11">0.95</data>
+    </edge>
+    <edge source="2618" target="4380">
+      <data key="d8">Hydroxyethyl / Ethoxy Shift (±C2H4O)</data>
+      <data key="d9">-44.0259</data>
+      <data key="d10">0.31</data>
+      <data key="d11">0.795</data>
+    </edge>
+    <edge source="2626" target="2962">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">-15.9934</data>
+      <data key="d10">1.55</data>
+      <data key="d11">0.979</data>
+    </edge>
+    <edge source="2626" target="3626">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0177</data>
+      <data key="d10">2.04</data>
+      <data key="d11">0.492</data>
+    </edge>
+    <edge source="2626" target="3654">
+      <data key="d8">Conjugation +C6H7NS (Pakkir Shah et al.)</data>
+      <data key="d9">125.0317</data>
+      <data key="d10">1.79</data>
+      <data key="d11">-0.617</data>
+    </edge>
+    <edge source="2626" target="4157">
+      <data key="d8">Hydration / Dehydration (±H2O)</data>
+      <data key="d9">-18.0089</data>
+      <data key="d10">1.65</data>
+      <data key="d11">-0.26</data>
+    </edge>
+    <edge source="2626" target="4470">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">-17.9912</data>
+      <data key="d10">1.61</data>
+      <data key="d11">-0.345</data>
+    </edge>
+    <edge source="2658" target="2678">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">-17.9926</data>
+      <data key="d10">0.16</data>
+      <data key="d11">0.936</data>
+    </edge>
+    <edge source="2685" target="2719">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">15.9949</data>
+      <data key="d10">0.02</data>
+      <data key="d11">0.861</data>
+    </edge>
+    <edge source="2685" target="3605">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">17.9928</data>
+      <data key="d10">0.01</data>
+      <data key="d11">-0.354</data>
+    </edge>
+    <edge source="2685" target="3779">
+      <data key="d8">Acetylation (±C2H2O)</data>
+      <data key="d9">-42.0105</data>
+      <data key="d10">0.07</data>
+      <data key="d11">-0.522</data>
+    </edge>
+    <edge source="2685" target="5015">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0155</data>
+      <data key="d10">0.13</data>
+      <data key="d11">0.908</data>
+    </edge>
+    <edge source="2719" target="3626">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">17.9932</data>
+      <data key="d10">0.41</data>
+      <data key="d11">0.606</data>
+    </edge>
+    <edge source="2719" target="4470">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0157</data>
+      <data key="d10">0.02</data>
+      <data key="d11">0.835</data>
+    </edge>
+    <edge source="2828" target="2962">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">-15.9948</data>
+      <data key="d10">0.15</data>
+      <data key="d11">0.338</data>
+    </edge>
+    <edge source="2828" target="3626">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0163</data>
+      <data key="d10">0.64</data>
+      <data key="d11">0.936</data>
+    </edge>
+    <edge source="2828" target="3654">
+      <data key="d8">Conjugation +C6H7NS (Pakkir Shah et al.)</data>
+      <data key="d9">125.0303</data>
+      <data key="d10">0.39</data>
+      <data key="d11">-0.127</data>
+    </edge>
+    <edge source="2828" target="4157">
+      <data key="d8">Hydration / Dehydration (±H2O)</data>
+      <data key="d9">-18.0103</data>
+      <data key="d10">0.24</data>
+      <data key="d11">0.369</data>
+    </edge>
+    <edge source="2828" target="4470">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">-17.9926</data>
+      <data key="d10">0.21</data>
+      <data key="d11">0.019</data>
+    </edge>
+    <edge source="2838" target="4516">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0155</data>
+      <data key="d10">0.19</data>
+      <data key="d11">0.791</data>
+    </edge>
+    <edge source="2962" target="3256">
+      <data key="d8">Formylation / CO Shift (±CO)</data>
+      <data key="d9">27.9947</data>
+      <data key="d10">0.17</data>
+      <data key="d11">-0.542</data>
+    </edge>
+    <edge source="2962" target="3605">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0157</data>
+      <data key="d10">0.08</data>
+      <data key="d11">0.944</data>
+    </edge>
+    <edge source="2962" target="4157">
+      <data key="d8">Hydrogenation / Dehydrogenation (±H2)</data>
+      <data key="d9">-2.0156</data>
+      <data key="d10">0.1</data>
+      <data key="d11">-0.261</data>
+    </edge>
+    <edge source="2962" target="4380">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0153</data>
+      <data key="d10">0.3</data>
+      <data key="d11">0.721</data>
+    </edge>
+    <edge source="2962" target="5015">
+      <data key="d8">S-Extrusion Rearrangement (±S-O+H2)</data>
+      <data key="d9">-17.9926</data>
+      <data key="d10">0.23</data>
+      <data key="d11">-0.271</data>
+    </edge>
+    <edge source="3256" target="3626">
+      <data key="d8">Hydrogenation / Dehydrogenation (±H2)</data>
+      <data key="d9">2.0163</data>
+      <data key="d10">0.67</data>
+      <data key="d11">0.293</data>
+    </edge>
+    <edge source="3256" target="4380">
+      <data key="d8">Acetylation (±C2H2O)</data>
+      <data key="d9">-42.0101</data>
+      <data key="d10">0.47</data>
+      <data key="d11">-0.036</data>
+    </edge>
+    <edge source="3493" target="5096">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0155</data>
+      <data key="d10">0.1</data>
+      <data key="d11">0.71</data>
+    </edge>
+    <edge source="3605" target="3626">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">15.9953</data>
+      <data key="d10">0.41</data>
+      <data key="d11">0.621</data>
+    </edge>
+    <edge source="3626" target="4380">
+      <data key="d8">Hydroxyethyl / Ethoxy Shift (±C2H4O)</data>
+      <data key="d9">-44.0264</data>
+      <data key="d10">0.19</data>
+      <data key="d11">0.484</data>
+    </edge>
+    <edge source="3779" target="5015">
+      <data key="d8">Formylation / CO Shift (±CO)</data>
+      <data key="d9">27.995</data>
+      <data key="d10">0.06</data>
+      <data key="d11">-0.325</data>
+    </edge>
+    <edge source="4157" target="9575">
+      <data key="d8">Hydrogenation / Dehydrogenation (±H2)</data>
+      <data key="d9">-2.0156</data>
+      <data key="d10">0.06</data>
+      <data key="d11">0.945</data>
+    </edge>
+    <edge source="4470" target="5015">
+      <data key="d8">Sulfoxide Reduction / Oxidation (±O)</data>
+      <data key="d9">-15.9948</data>
+      <data key="d10">0.16</data>
+      <data key="d11">0.99</data>
+    </edge>
+    <edge source="4812" target="6545">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0163</data>
+      <data key="d10">0.63</data>
+      <data key="d11">0.052</data>
+    </edge>
+    <edge source="5486" target="5805">
+      <data key="d8">C-S Pyridine Cleavage (±C9H11NO)</data>
+      <data key="d9">-149.084</data>
+      <data key="d10">0.05</data>
+      <data key="d11">-0.281</data>
+    </edge>
+    <edge source="5486" target="7139">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0161</data>
+      <data key="d10">0.44</data>
+      <data key="d11">0.953</data>
+    </edge>
+    <edge source="7841" target="9575">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0156</data>
+      <data key="d10">0.0</data>
+      <data key="d11">0.945</data>
+    </edge>
+    <edge source="8031" target="9575">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">14.0156</data>
+      <data key="d10">0.03</data>
+      <data key="d11">0.923</data>
+    </edge>
+    <edge source="8926" target="10350">
+      <data key="d8">Methylation / Demethylation (±CH2)</data>
+      <data key="d9">-14.0153</data>
+      <data key="d10">0.31</data>
+      <data key="d11">-0.567</data>
+    </edge>
+  </graph>
+</graphml>
