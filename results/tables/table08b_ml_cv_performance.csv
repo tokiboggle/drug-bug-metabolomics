@@ -1,0 +1,31 @@
+Task,Model,Fold,ROC_AUC,Balanced_Acc
+Omeprazole vs DMSO (All Unique),Random Forest,0,1.0,1.0
+Omeprazole vs DMSO (All Unique),L1 Logistic Regression,0,1.0,1.0
+Omeprazole vs DMSO (All Unique),Random Forest,1,1.0,1.0
+Omeprazole vs DMSO (All Unique),L1 Logistic Regression,1,1.0,1.0
+Omeprazole vs DMSO (All Unique),Random Forest,2,1.0,1.0
+Omeprazole vs DMSO (All Unique),L1 Logistic Regression,2,1.0,1.0
+Omeprazole vs DMSO (All Unique),Random Forest,3,1.0,1.0
+Omeprazole vs DMSO (All Unique),L1 Logistic Regression,3,1.0,1.0
+Omeprazole vs DMSO (All Unique),Random Forest,4,1.0,1.0
+Omeprazole vs DMSO (All Unique),L1 Logistic Regression,4,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),Random Forest,0,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),L1 Logistic Regression,0,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),Random Forest,1,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),L1 Logistic Regression,1,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),Random Forest,2,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),L1 Logistic Regression,2,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),Random Forest,3,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),L1 Logistic Regression,3,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),Random Forest,4,1.0,1.0
+Omeprazole vs DMSO (Clean Endogenous),L1 Logistic Regression,4,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),Random Forest,0,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),L2 Logistic Regression,0,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),Random Forest,1,0.9523809523809524,0.7777777777777777
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),L2 Logistic Regression,1,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),Random Forest,2,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),L2 Logistic Regression,2,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),Random Forest,3,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),L2 Logistic Regression,3,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),Random Forest,4,1.0,1.0
+Growth Stage T0-2/T3-5/T6-8 (Clean Endogenous),L2 Logistic Regression,4,1.0,1.0

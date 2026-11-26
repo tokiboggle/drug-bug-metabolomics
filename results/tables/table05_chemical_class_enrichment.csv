@@ -1,0 +1,45 @@
+Hit_Set,Chemical_Class,Hits_in_Class,Total_in_Class,Total_Hits,Background_Total,Fold_Enrichment,Odds_Ratio,p_value,Example_Compounds,q_value
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),"Fatty Acids, Oxylipins & Lipids",22,66,53,232,1.46,2.18,0.014412495372547062,NAE 16:4; Spectral Match to 9(10)-EpOME from NIST14; Linoleic acid; Linoleic acid,0.15853744909801767
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),N-Acyl Amino Acids,8,19,53,232,1.84,2.72,0.04138909052384835,Gly-C18:1; Oleyl sarcosine; Candidate 2-aminovaleric acid-C18:1 (delta mass:264.2456); N-Oleoyl-Phenylalanine,0.22763999788116593
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Amino Acids & Linear Peptides,7,17,53,232,1.8,2.57,0.06384557827422578,Spectral Match to Leu-Val from NIST14; Spectral Match to Val-Leu from NIST14; Spectral Match to Phe-Pro from NIST14; Spectral Match to Phe-Pro from NIST14,0.2341004536721612
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),"Nucleosides, Purines & Amines",4,13,53,232,1.35,1.54,0.34184351945606595,guanine CollisionEnergy:102040; 2'-O-Methyladenosine; 2365-40-4; N6-Isopentenyladenosine,0.8838492708809087
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Plant Polyphenols & Isoflavones (mGAM),4,14,53,232,1.25,1.38,0.4017496685822312,Vanillin; Daidzin; 578-74-5; Genistein [M+H]+,0.8838492708809087
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Plasticizers & Background Contaminants,3,14,53,232,0.94,0.92,0.6594550300958802,"Spectral Match to Tris(2-butoxyethyl) phosphate from NIST14; Tris(2-butoxyethyl) phosphate; ""2,4,6-Tri-tert-butylphenol""",1.0
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Other Annotated Metabolites,3,17,53,232,0.77,0.71,0.7919155752980107,"Spectral Match to 2,4,7,9-Tetramethyl-5-decyne-4,7-diol from NIST14; Spectral Match to 3,5-Dimethyladamantan-1-amine from NIST14; Spectral Match to 2,4,7,9-Tetramethyl-5-decyne-4,7-diol from NIST14",1.0
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Indoles & Tryptophan Derivatives,2,16,53,232,0.55,0.46,0.9171953451509212,Abrine; indole-3-propionic acid CollisionEnergy:205060,1.0
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Bile Acids,0,5,53,232,0.0,0.0,1.0,,1.0
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Cyclic Dipeptides (DKPs),0,37,53,232,0.0,0.0,1.0,,1.0
+Com20 Time-Decreasing (Bacterial Uptake/Depletion),Omeprazole & Benzimidazole Derivatives,0,12,53,232,0.0,0.0,1.0,,1.0
+Com20 Time-Increasing (Bacterial Production),Bile Acids,4,5,34,232,5.46,26.27,0.0017640324533533867,Spectral Match to Cholic acid from NIST14; Spectral Match to Cholic acid from NIST14; Spectral Match to Cholic acid from NIST14; Choldienic acid putative,0.012175326330920572
+Com20 Time-Increasing (Bacterial Production),N-Acyl Amino Acids,8,19,34,232,2.87,5.23,0.0022136956965310133,Candidate Histamine-C5:0 (delta mass:84.0578); Candidate Leucine-C4:0 (delta mass:70.0411); Candidate Phenylalanine-C4:0 (delta mass:70.0409); Leu-C6:0,0.012175326330920572
+Com20 Time-Increasing (Bacterial Production),Plant Polyphenols & Isoflavones (mGAM),5,14,34,232,2.44,3.62,0.03771632439626204,Daidzein; Glycitein; naringenin CollisionEnergy:102040; Genistein [M+H]+,0.13829318945296082
+Com20 Time-Increasing (Bacterial Production),Indoles & Tryptophan Derivatives,3,16,34,232,1.28,1.38,0.42480563022906737,Tryptophol; Indole-3-acetic acid; Indole-3-propionic acid,1.0
+Com20 Time-Increasing (Bacterial Production),"Fatty Acids, Oxylipins & Lipids",10,66,34,232,1.03,1.06,0.5197718549359645,Sphinganine (C17 base); LPE 13:0; PE 13:0; LPE 15:0,1.0
+Com20 Time-Increasing (Bacterial Production),"Nucleosides, Purines & Amines",2,13,34,232,1.05,1.06,0.5948139509521386,"N-Acetylhistamine; N6,N6-Dimethyladenosine",1.0
+Com20 Time-Increasing (Bacterial Production),Omeprazole & Benzimidazole Derivatives,1,12,34,232,0.57,0.52,0.8580558426902396,UFIPRAZOLE,1.0
+Com20 Time-Increasing (Bacterial Production),Other Annotated Metabolites,1,17,34,232,0.4,0.34,0.9391997003138138,B04A18,1.0
+Com20 Time-Increasing (Bacterial Production),Amino Acids & Linear Peptides,0,17,34,232,0.0,0.0,1.0,,1.0
+Com20 Time-Increasing (Bacterial Production),Cyclic Dipeptides (DKPs),0,37,34,232,0.0,0.0,1.0,,1.0
+Com20 Time-Increasing (Bacterial Production),Plasticizers & Background Contaminants,0,14,34,232,0.0,0.0,1.0,,1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Omeprazole & Benzimidazole Derivatives,11,12,21,232,10.13,231.0,1.9658181967982783e-12,Omeprazole 4-desmethylthioether; 37052-78-1; omeprazole; omeprazole,2.162400016478106e-11
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Indoles & Tryptophan Derivatives,3,16,21,232,2.07,2.54,0.16549007685148423,Abrine; N-Acetylserotonin; indole-3-propionic acid CollisionEnergy:205060,0.9101954226831632
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Amino Acids & Linear Peptides,2,17,21,232,1.3,1.38,0.4694379050153051,Phenylalanine methyl ester; L-phenylalanine,1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Other Annotated Metabolites,1,17,21,232,0.65,0.61,0.8125731729673632,"ethyl 2,5-dioxo-1-phenyl-1,2,5,6,7,8-hexahydro-3-quinolinecarboxylate",1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Cyclic Dipeptides (DKPs),1,37,21,232,0.3,0.24,0.9783379960526217,"1,6-propano-3-ethylideno-1,4-piperazine-2,5-dione",1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)","Fatty Acids, Oxylipins & Lipids",1,66,21,232,0.17,0.11,0.9993992149841372,SPB 9:4;O2,1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Bile Acids,0,5,21,232,0.0,0.0,1.0,,1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)",N-Acyl Amino Acids,0,19,21,232,0.0,0.0,1.0,,1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)","Nucleosides, Purines & Amines",0,13,21,232,0.0,0.0,1.0,,1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Plant Polyphenols & Isoflavones (mGAM),0,14,21,232,0.0,0.0,1.0,,1.0
+"Omeprazole-Enriched (q<0.05, log2FC>1)",Plasticizers & Background Contaminants,0,14,21,232,0.0,0.0,1.0,,1.0
+Stable mGAM Medium Background,Cyclic Dipeptides (DKPs),32,37,54,232,3.72,50.33,9.605533656242691e-20,"Cyclo-prolylglycine; NCGC00380778-01_C9H14N2O3_(3S,8aS)-3-[(1R)-1-Hydroxyethyl]hexahydropyrrolo[1,2-a]pyrazine-1,4-dione; 1,6-propano-3-ethylideno-1,4-piperazine-2,5-dione; cyclo(L-Leu-L-4-hydroxy-Pro)",1.056608702186696e-18
+Stable mGAM Medium Background,Indoles & Tryptophan Derivatives,4,16,54,232,1.07,1.11,0.5351334040575966,D-Tryptophan; Spectral Match to Abrine from NIST14; INDOLE-3-ACETALDEHYDE - 20.0 eV; 86704-55-4,1.0
+Stable mGAM Medium Background,Amino Acids & Linear Peptides,4,17,54,232,1.01,1.02,0.5896482373790661,L-phenylalanine; Spectral Match to Leu-Gly from NIST14; N-Acetyltyramine; N-Phenethylacetamide,1.0
+Stable mGAM Medium Background,Plasticizers & Background Contaminants,2,14,54,232,0.61,0.53,0.879298373835639,Dicyclohexylurea; Benzododecinium,1.0
+Stable mGAM Medium Background,Other Annotated Metabolites,2,17,54,232,0.51,0.42,0.9389026090979316,Acetyl-Nornicotine; Methohexital,1.0
+Stable mGAM Medium Background,Omeprazole & Benzimidazole Derivatives,1,12,54,232,0.36,0.29,0.9619624795690978,"3-(1H-1,3-benzodiazol-2-yl)-2,2-dimethylpropanoic acid",1.0
+Stable mGAM Medium Background,Plant Polyphenols & Isoflavones (mGAM),1,14,54,232,0.31,0.24,0.978375930165994,"""3,4,5-Trimethoxyphenol CollisionEnergy:102040""",1.0
+Stable mGAM Medium Background,"Fatty Acids, Oxylipins & Lipids",8,66,54,232,0.52,0.36,0.9976888234405151,Spectral Match to 12(13)-Epoxy-9Z-octadecenoic acid from NIST14; Spectral Match to 12(13)-Epoxy-9Z-octadecenoic acid from NIST14; NCGC00381425-01!8-hydroxy-8-(3-octyloxiran-2-yl)octanoic acid [IIN-based on: CCMSLIB00000846585]; NCGC00381425-01!8-hydroxy-8-(3-octyloxiran-2-yl)octanoic acid [IIN-based on: CCMSLIB00000846585],1.0
+Stable mGAM Medium Background,Bile Acids,0,5,54,232,0.0,0.0,1.0,,1.0
+Stable mGAM Medium Background,N-Acyl Amino Acids,0,19,54,232,0.0,0.0,1.0,,1.0
+Stable mGAM Medium Background,"Nucleosides, Purines & Amines",0,13,54,232,0.0,0.0,1.0,,1.0
