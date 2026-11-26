@@ -97,8 +97,8 @@ def load_all():
 # FIGURE 1: Sample QC, Failed Injections & Run-Order Confounding
 # =====================================================================
 def make_fig01(X_raw, meta):
-    fig = plt.figure(figsize=(16.5, 5.4))
-    gs = gridspec.GridSpec(1, 3, width_ratios=[1.15, 1.0, 1.25], wspace=0.30)
+    fig = plt.figure(figsize=(17.4, 5.2))
+    gs = gridspec.GridSpec(1, 3, width_ratios=[1.12, 1.02, 1.24], wspace=0.42)
 
     # Panel A: TIC vs Detected Features
     ax = fig.add_subplot(gs[0])
@@ -126,32 +126,31 @@ def make_fig01(X_raw, meta):
             zorder=5 if "Failed" in lbl else 3,
         )
 
-    # Highlight failed region
     ax.axhspan(0, 0.18, color=COL_FAIL, alpha=0.08, zorder=0)
     ax.annotate(
         "4 failed T4/T5 injections\n(TIC 4.4–4.7×10⁷ < Blanks!)",
-        xy=(831, 0.046),
+        xy=(840, 0.055),
         xytext=(1380, 0.34),
-        fontsize=8.2,
+        fontsize=8.3,
         fontweight="bold",
         color=COL_FAIL,
-        arrowprops=dict(arrowstyle="->", color=COL_FAIL, lw=1.2),
+        arrowprops=dict(arrowstyle="->", color=COL_FAIL, lw=1.3),
         bbox=dict(boxstyle="round,pad=0.3", fc="#FFF5F5", ec=COL_FAIL, lw=0.8),
     )
     ax.annotate(
         "Omeprazole TIC doubles\nT0 (1.1e9) → T8 (2.2e9)",
-        xy=(3180, 2.02),
-        xytext=(1580, 1.48),
-        fontsize=8.2,
+        xy=(3230, 1.48),
+        xytext=(1580, 1.46),
+        fontsize=8.3,
         color=COL_OMEPR,
         fontweight="bold",
-        arrowprops=dict(arrowstyle="->", color=COL_OMEPR, lw=1.2),
+        arrowprops=dict(arrowstyle="->", color=COL_OMEPR, lw=1.3),
         bbox=dict(boxstyle="round,pad=0.3", fc="#FFF8F0", ec=COL_OMEPR, lw=0.8),
     )
     ax.set_xlabel("Detected Features per Injection (peak area > 0)")
     ax.set_ylabel("Total Ion Current (TIC, ×10⁹)")
-    ax.set_title("A. Sample-Level QC: 4 Failed Injections & TIC Drift")
-    ax.legend(loc="upper left", fontsize=7.4, ncol=1, borderpad=0.35)
+    ax.set_title("A. Sample QC: Failed Injections & TIC Drift", fontsize=10.5)
+    ax.legend(loc="upper left", fontsize=7.6, ncol=1, borderpad=0.35)
     ax.set_ylim(-0.05, 2.42)
     ax.grid(alpha=0.22, linestyle="--")
 
@@ -173,9 +172,8 @@ def make_fig01(X_raw, meta):
     im = ax2.imshow(corr.values, cmap="RdYlBu_r", vmin=0.1, vmax=1.0, aspect="auto")
     ax2.set_xticks(range(len(sel)))
     ax2.set_yticks(range(len(sel)))
-    ax2.set_xticklabels(short_names, rotation=45, ha="right", fontsize=7.5)
-    ax2.set_yticklabels(short_names, fontsize=7.5)
-    # Draw block separators
+    ax2.set_xticklabels(short_names, rotation=45, ha="right", fontsize=7.6)
+    ax2.set_yticklabels(short_names, fontsize=7.6)
     for pos in [3.5, 7.5]:
         ax2.axhline(pos, color="black", lw=1.5)
         ax2.axvline(pos, color="black", lw=1.5)
@@ -188,12 +186,13 @@ def make_fig01(X_raw, meta):
                 f"{v:.2f}",
                 ha="center",
                 va="center",
-                fontsize=6.2,
-                color="white" if v > 0.78 or v < 0.25 else "black",
+                fontsize=6.5,
+                fontweight="bold" if v > 0.80 else "normal",
+                color="white" if (v > 0.78 or v < 0.34) else "#111111",
             )
     cbar = plt.colorbar(im, ax=ax2, fraction=0.046, pad=0.03)
-    cbar.set_label("Pearson r on log1p(intensity)", fontsize=8.5)
-    ax2.set_title("B. Failed Injections Match Blanks (r = 0.83–0.89)")
+    cbar.set_label("Pearson r (log1p)", fontsize=8.5)
+    ax2.set_title("B. Failed Injections Match Blanks (r=0.83–0.89)", fontsize=10.5)
 
     # Panel C: Run-Order Confounding & Parent Omeprazole Autosampler Instability vs Ufiprazole
     ax3 = fig.add_subplot(gs[2])
@@ -201,9 +200,11 @@ def make_fig01(X_raw, meta):
     omepr["parent_omep"] = [X_raw.loc[2828, f] for f in omepr["filename"]]
     omepr["ufiprazole"] = [X_raw.loc[2962, f] for f in omepr["filename"]]
 
-    # Plot parent omeprazole (left y) and ufiprazole (right y) vs run_hours, labeled by Timepoint
     ax3_r = ax3.twinx()
     ax3_r.spines["top"].set_visible(False)
+    # Draw primary axis annotations strictly on top of twin-axis triangles!
+    ax3.set_zorder(ax3_r.get_zorder() + 1)
+    ax3.patch.set_visible(False)
 
     sc1 = ax3.scatter(
         omepr["run_hours"],
@@ -216,31 +217,44 @@ def make_fig01(X_raw, meta):
         label="Parent Omeprazole (ID 2828, m/z 346.12)",
         zorder=4,
     )
-    # Trend line for parent omeprazole vs run_hours
     m1, b1 = np.polyfit(omepr["run_hours"], omepr["parent_omep"] / 1e6, 1)
     xr = np.linspace(0, 132, 100)
-    ax3.plot(xr, np.maximum(m1 * xr + b1, 0), color=COL_FAIL, ls="--", lw=1.4, alpha=0.8)
+    ax3.plot(xr, np.maximum(m1 * xr + b1, 0), color=COL_FAIL, ls="--", lw=1.4, alpha=0.75)
 
-    # Label timepoints on key parent omeprazole points
+    # Clean non-overlapping offsets for T0-T8 labels (zorder=9 above all markers!)
+    tp_offsets = {
+        "T4": (0, 1.3),
+        "T5": (-4, 1.7),
+        "T8": (4, 1.5),
+        "T3": (-5, 1.4),
+        "T0": (6, 2.0),
+        "T7": (-10, -1.6),
+        "T2": (-10, 6.2),
+        "T6": (-12, 4.1),
+        "T1": (-1, 3.2),
+    }
     for tp_lbl, grp in omepr.groupby("sample_type"):
         x_m = grp["run_hours"].mean()
         y_m = grp["parent_omep"].mean() / 1e6
-        dy = 1.05 if tp_lbl not in ("T1", "T2", "T8") else (0.95 if tp_lbl == "T8" else 1.25)
-        ax3.text(
-            x_m,
-            y_m + dy,
+        dx, dy = tp_offsets.get(tp_lbl, (0, 1.2))
+        ax3.annotate(
             tp_lbl,
-            fontsize=7.6,
+            xy=(x_m, y_m),
+            xytext=(x_m + dx, y_m + dy),
+            fontsize=7.9,
             fontweight="bold",
             color=COL_FAIL,
             ha="center",
+            arrowprops=dict(arrowstyle="-", color=COL_FAIL, lw=0.7, alpha=0.7) if tp_lbl in ("T1", "T2", "T6") else None,
+            bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COL_FAIL if tp_lbl in ("T1", "T2", "T6") else "none", lw=0.5, alpha=0.92),
+            zorder=9,
         )
 
     sc2 = ax3_r.scatter(
         omepr["run_hours"],
         omepr["ufiprazole"] / 1e8,
         c=COL_DMSO,
-        s=48,
+        s=50,
         marker="^",
         alpha=0.82,
         edgecolors="white",
@@ -256,29 +270,28 @@ def make_fig01(X_raw, meta):
     ax3_r.tick_params(axis="y", labelcolor=COL_DMSO)
     ax3.set_ylim(-1.2, 20.5)
     ax3_r.set_ylim(-0.3, 6.4)
-    ax3.set_title("C. Run-Order Bias: Parent Omeprazole Decays in Queue")
+    ax3.set_title("C. Run-Order Bias: Parent Omeprazole Decays", fontsize=10.5)
     ax3.grid(alpha=0.22, linestyle="--")
 
-    # Box summarizing correlations — placed cleanly in lower-center/right below trend line
     ax3.text(
-        0.53,
+        0.52,
         0.96,
-        "Parent ID 2828:\n  r(run) = −0.62 (p=9e−4)\n  r(time) = +0.08 (n.s.)\n  T1 & T2 = 0 (Day 5–6!)\nUfiprazole ID 2962:\n  r(time) = +0.98 (p<1e−14)",
+        "Parent ID 2828:\n  r(run) = −0.62 (p = 9.4e−4)\n  r(time) = +0.08 (n.s.)\n  T1 & T2 = 0 (Day 5–6!)\nUfiprazole ID 2962:\n  r(time) = +0.98 (p < 1e−14)",
         transform=ax3.transAxes,
         va="top",
-        fontsize=7.3,
-        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#CCCCCC", alpha=0.95),
+        fontsize=7.6,
+        bbox=dict(boxstyle="round,pad=0.32", fc="white", ec="#CCCCCC", alpha=0.95),
     )
 
     handles = [sc1, sc2]
     labels = [h.get_label() for h in handles]
-    ax3.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.48, -0.15), ncol=1, fontsize=7.5)
+    ax3.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.48, -0.16), ncol=1, fontsize=7.8)
 
     fig.suptitle(
-        "Step 1 — Experimental Design & Quality Control Audit (n = 69 Injections)",
-        fontsize=13,
+        "Experimental Design & Quality Control Audit (n = 69 Injections)",
+        fontsize=12.8,
         fontweight="bold",
-        y=1.03,
+        y=1.02,
     )
     fig.savefig(FIG_DIR / "fig01_qc_failed_injections_and_run_order.png")
     plt.close(fig)
@@ -288,8 +301,8 @@ def make_fig01(X_raw, meta):
 # FIGURE 2: PQN vs TIC Normalization & ESI Ion-Suppression Notch
 # =====================================================================
 def make_fig02(meta, X_pqn_all, res, summary):
-    fig = plt.figure(figsize=(16.5, 5.3))
-    gs = gridspec.GridSpec(1, 3, width_ratios=[1.0, 0.85, 1.45], wspace=0.30)
+    fig = plt.figure(figsize=(17.4, 5.2))
+    gs = gridspec.GridSpec(1, 3, width_ratios=[1.02, 0.86, 1.46], wspace=0.36)
 
     bac = meta[(meta["bacteria"] == "Yes") & (~meta["is_failed_injection"])].copy()
 
@@ -308,22 +321,24 @@ def make_fig02(meta, X_pqn_all, res, summary):
         )
         ax.plot(t, sub["pqn_factor"].mean().values, color=col, lw=2.2, ls="--", marker="s", ms=5.0, label=f"{drug} — PQN factor")
     ax.axhline(1.0, color="gray", ls=":", lw=1.0)
+    # Place callout cleanly in open lower-right band (between orange TIC ribbon and PQN lines!)
     ax.annotate(
         "TIC doubles (1.05→1.99×)\ndue to Ufiprazole cg=220\n(~47% of total TIC!)",
-        xy=(7, 1.90),
-        xytext=(1.6, 1.72),
+        xy=(5.0, 1.82),
+        xytext=(3.75, 1.18),
         fontsize=7.9,
         fontweight="bold",
         color=COL_OMEPR,
-        arrowprops=dict(arrowstyle="->", color=COL_OMEPR, lw=1.2),
+        arrowprops=dict(arrowstyle="->", color=COL_OMEPR, lw=1.3),
         bbox=dict(boxstyle="round,pad=0.3", fc="#FFF8F0", ec=COL_OMEPR, lw=0.8),
+        zorder=7,
     )
     ax.set_xlabel("Incubation Time (hours, T0–T8)")
     ax.set_ylabel("Normalization Scaling Factor")
     ax.set_xticks(range(9))
     ax.set_xticklabels([f"T{t}" for t in range(9)])
-    ax.set_ylim(0.65, 2.22)
-    ax.set_title("A. Normalization Trap: TIC Doubles vs Stable PQN")
+    ax.set_ylim(0.68, 2.28)
+    ax.set_title("A. TIC Doubles vs. Stable PQN", fontsize=10.5)
     ax.legend(loc="upper left", fontsize=7.6)
     ax.grid(alpha=0.22, linestyle="--")
 
@@ -343,17 +358,17 @@ def make_fig02(meta, X_pqn_all, res, summary):
             ax2.text(
                 bar.get_x() + bar.get_width() / 2,
                 h + 35,
-                f"{int(h)}\n({pct:.0f}%)",
+                f"{int(h):,}\n({pct:.0f}%)",
                 ha="center",
                 va="bottom",
-                fontsize=8.0,
+                fontsize=8.2,
                 fontweight="bold",
             )
     ax2.set_xticks(x)
-    ax2.set_xticklabels(cats, fontsize=8.5)
-    ax2.set_ylabel(f"Shared Endogenous Features (of n = {summary['tic_vs_pqn_shared_n']})")
-    ax2.set_ylim(0, 2150)
-    ax2.set_title("B. TIC Creates ~1,300 False Down Hits")
+    ax2.set_xticklabels(cats, fontsize=8.6)
+    ax2.set_ylabel(f"Shared Endogenous Features (n = {summary['tic_vs_pqn_shared_n']:,})")
+    ax2.set_ylim(0, 2200)
+    ax2.set_title("B. TIC Creates ~1,300 False Down Hits", fontsize=10.5)
     ax2.legend(loc="upper right", fontsize=8.0)
     ax2.grid(axis="y", alpha=0.22, linestyle="--")
 
@@ -370,30 +385,28 @@ def make_fig02(meta, X_pqn_all, res, summary):
     ax3.scatter(sh.loc[is_neg, "rt"], sh.loc[is_neg, "beta_int_pqn_unadj"], c=COL_SUPP, s=24, alpha=0.88, edgecolors="white", lw=0.3, label=f"Negative Trt×Time (n={is_neg.sum()})", zorder=4)
     ax3.axhline(0, color="black", lw=0.9, ls="--", alpha=0.6)
 
-    # Mark Ufiprazole RT=1.898 min
     ax3.axvline(1.898, color=COL_OMEPR, lw=2.0, ls="-", zorder=5)
     ax3.annotate(
-        "Ufiprazole peak (ID 2962)\nRT = 1.90 min, area = 4.9×10⁸\n(9× surge T0→T8 suppresses\nco-eluting ESI ions!)",
-        xy=(1.90, 0.56),
-        xytext=(2.62, 0.36),
-        fontsize=7.8,
+        "Ufiprazole peak (ID 2962)\nRT = 1.90 min, area = 4.9×10⁸\n(9× surge suppresses ESI ions!)",
+        xy=(1.90, 0.48),
+        xytext=(2.68, 0.36),
+        fontsize=7.9,
         fontweight="bold",
         color=COL_OMEPR,
         arrowprops=dict(arrowstyle="->", color=COL_OMEPR, lw=1.3),
         bbox=dict(boxstyle="round,pad=0.3", fc="#FFF8F0", ec=COL_OMEPR, lw=0.9),
     )
 
-    # Call out classic false-hit example inside window
     if 2972 in sh.index:
         ax3.annotate(
             "N-Phenethylacetamide (ID 2972)\n& IPA isomer (ID 3178): suppressed!",
-            xy=(sh.loc[2972, "rt"], sh.loc[2972, "beta_int_pqn_unadj"]),
-            xytext=(2.65, -1.02),
-            fontsize=7.6,
+            xy=(2.22, -0.68),
+            xytext=(2.75, -0.84),
+            fontsize=7.7,
             color=COL_SUPP,
             fontweight="bold",
-            arrowprops=dict(arrowstyle="->", color=COL_SUPP, lw=1.1),
-            bbox=dict(boxstyle="round,pad=0.25", fc="#F9F5FF", ec=COL_SUPP, lw=0.8),
+            arrowprops=dict(arrowstyle="->", color=COL_SUPP, lw=1.2),
+            bbox=dict(boxstyle="round,pad=0.28", fc="#F9F5FF", ec=COL_SUPP, lw=0.8),
         )
     ax3.text(
         0.98,
@@ -409,17 +422,17 @@ def make_fig02(meta, X_pqn_all, res, summary):
     )
     ax3.set_xlabel("Chromatographic Retention Time (min)")
     ax3.set_ylabel("Shared Feature Trt × Time Slope (log₂ FC / hr)")
-    ax3.set_xlim(0.1, 5.6)
+    ax3.set_xlim(0.1, 5.65)
     ax3.set_ylim(-1.45, 1.25)
-    ax3.set_title("C. Measurement Constraint: Co-Elution ESI Ion Suppression")
-    ax3.legend(loc="upper right", fontsize=7.2)
+    ax3.set_title("C. Co-Elution ESI Ion Suppression Notch", fontsize=10.5)
+    ax3.legend(loc="upper right", fontsize=7.4)
     ax3.grid(alpha=0.20, linestyle="--")
 
     fig.suptitle(
-        "Step 2 — Normalization Model Awareness & LC-MS Measurement Constraints",
-        fontsize=13,
+        "Normalization Model Awareness (PQN vs. TIC) & LC-MS Matrix Ion Suppression",
+        fontsize=12.8,
         fontweight="bold",
-        y=1.03,
+        y=1.02,
     )
     fig.savefig(FIG_DIR / "fig02_normalization_pqn_vs_tic_and_ion_suppression.png")
     plt.close(fig)
@@ -429,15 +442,14 @@ def make_fig02(meta, X_pqn_all, res, summary):
 # FIGURE 3: Global & Endogenous PCA + PERMANOVA Variance Partitioning
 # =====================================================================
 def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
-    fig = plt.figure(figsize=(16.5, 5.4))
-    gs = gridspec.GridSpec(1, 3, width_ratios=[1.1, 1.1, 1.15], wspace=0.28)
+    fig = plt.figure(figsize=(17.6, 5.4))
+    gs = gridspec.GridSpec(1, 3, width_ratios=[1.08, 1.12, 1.18], wspace=0.42)
 
     bac = meta[(meta["bacteria"] == "Yes") & (~meta["is_failed_injection"])].copy()
     med = meta[meta["drug"] == "Medium"].copy()
     bac_files = bac["filename"].tolist()
     med_files = med["filename"].tolist()
 
-    # Build log2 with medium for Panel B
     arr_all = X_pqn_all[bac_files + med_files].values.astype(float).copy()
     for i in range(arr_all.shape[0]):
         pos = arr_all[i, arr_all[i] > 0]
@@ -446,7 +458,7 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
 
     cmap_t = plt.cm.viridis
 
-    def plot_pca_panel(ax, mat_df, meta_df, title, show_medium=False):
+    def plot_pca_panel(ax, mat_df, meta_df, title, label_offsets, show_medium=False):
         X_sc = StandardScaler().fit_transform(mat_df.values.T)
         pca = PCA(n_components=2, random_state=42)
         scores = pca.fit_transform(X_sc)
@@ -455,12 +467,10 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
         df_p["PC1"] = scores[:, 0]
         df_p["PC2"] = scores[:, 1]
 
-        # Plot trajectories (centroids + connecting line)
         for drug, marker, edge_c, ls in [("DMSO", "o", COL_DMSO, "-"), ("Omeprazole", "s", COL_OMEPR, "-")]:
             sub = df_p[df_p["drug"] == drug]
             cent = sub.groupby("time_num")[["PC1", "PC2"]].mean().sort_index()
             ax.plot(cent["PC1"], cent["PC2"], color=edge_c, lw=2.2, alpha=0.85, ls=ls, zorder=3)
-            # Arrow from T7 -> T8 to show time direction
             ax.annotate(
                 "",
                 xy=(cent.loc[8, "PC1"], cent.loc[8, "PC2"]),
@@ -482,17 +492,20 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
                 alpha=0.92,
                 zorder=5,
             )
-            # Label T0 and T8 centroids cleanly
-            for tp_k, off in [(0, (-3, 4)), (8, (4, 4))]:
+            for tp_k in (0, 8):
+                key = f"{'Omep' if drug=='Omeprazole' else 'DMSO'} T{tp_k}"
+                off = label_offsets[key]
                 ax.annotate(
-                    f"{'Omep' if drug=='Omeprazole' else 'DMSO'} T{tp_k}",
+                    key,
                     xy=(cent.loc[tp_k, "PC1"], cent.loc[tp_k, "PC2"]),
                     xytext=off,
                     textcoords="offset points",
-                    fontsize=7.6,
+                    fontsize=7.8,
                     fontweight="bold",
                     color=edge_c,
-                    bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=edge_c, alpha=0.85, lw=0.7),
+                    arrowprops=dict(arrowstyle="-", color=edge_c, lw=0.9),
+                    bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=edge_c, alpha=0.95, lw=0.8),
+                    zorder=8,
                 )
 
         if show_medium:
@@ -511,17 +524,20 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
             ax.annotate(
                 "T0 Medium\n(no bacteria)",
                 xy=(sub_m["PC1"].mean(), sub_m["PC2"].mean()),
-                xytext=(8, -14),
+                xytext=(24, -4),
                 textcoords="offset points",
                 fontsize=7.6,
                 fontweight="bold",
                 color=COL_MED,
-                bbox=dict(boxstyle="round,pad=0.2", fc="white", ec=COL_MED, alpha=0.9, lw=0.8),
+                arrowprops=dict(arrowstyle="->", color=COL_MED, lw=1.0),
+                bbox=dict(boxstyle="round,pad=0.22", fc="white", ec=COL_MED, alpha=0.95, lw=0.8),
+                zorder=8,
             )
 
         ax.set_xlabel(f"PC1 ({ev[0]:.1f}% variance)")
         ax.set_ylabel(f"PC2 ({ev[1]:.1f}% variance)")
-        ax.set_title(title)
+        ax.set_title(title, fontsize=10.5)
+        ax.margins(x=0.14, y=0.12)
         ax.grid(alpha=0.22, linestyle="--")
 
         legend_els = [
@@ -533,11 +549,15 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
         ax.legend(handles=legend_els, loc="best", fontsize=7.6)
         return df_p
 
-    # Panel A: All 3,414 filtered features
     ax1 = fig.add_subplot(gs[0])
-    plot_pca_panel(ax1, log2_pqn[bac_files], bac, "A. Global PCA (All 3,414 Filtered Features)")
+    plot_pca_panel(
+        ax1,
+        log2_pqn[bac_files],
+        bac,
+        "A. Global PCA (All 3,414 Filtered Features)",
+        label_offsets={"DMSO T0": (18, -16), "DMSO T8": (18, 6), "Omep T0": (-16, 18), "Omep T8": (-52, 8)},
+    )
 
-    # Panel B: Clean Endogenous outside suppression zone (+ Medium)
     ax2 = fig.add_subplot(gs[1])
     clean_endo = res.index[
         (res["feature_category"] == "Shared_Endogenous")
@@ -548,17 +568,18 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
         ax2,
         log2_with_med.loc[clean_endo, bac_files + med_files],
         pd.concat([bac, med], ignore_index=True),
-        f"B. Clean Endogenous PCA (n = {len(clean_endo)}, + Medium)",
+        f"B. Clean Endogenous PCA (n = {len(clean_endo):,}, + Medium)",
+        label_offsets={"DMSO T0": (26, 8), "DMSO T8": (-64, 12), "Omep T0": (24, -18), "Omep T8": (-56, 22)},
         show_medium=True,
     )
-    # Add colorbar for timepoint T0-T8 shared across A & B
+
     sm = plt.cm.ScalarMappable(cmap=cmap_t, norm=plt.Normalize(vmin=0, vmax=8))
-    cbar = fig.colorbar(sm, ax=[ax1, ax2], orientation="horizontal", fraction=0.055, pad=0.16, aspect=40)
+    cbar = fig.colorbar(sm, ax=[ax1, ax2], orientation="horizontal", fraction=0.055, pad=0.17, aspect=42)
     cbar.set_ticks(range(9))
     cbar.set_ticklabels([f"T{t} ({t}h)" for t in range(9)])
     cbar.set_label("Sampling Timepoint (hours post-treatment)", fontsize=9)
 
-    # Panel C: Multivariate PERMANOVA Variance Partitioning (stacked horizontal bars)
+    # Panel C: Multivariate PERMANOVA Variance Partitioning
     ax3 = fig.add_subplot(gs[2])
     sets = [
         t9["Feature_Set"].unique()[0],
@@ -583,9 +604,9 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
             float(t9.loc[(t9["Feature_Set"] == s) & (t9["Term"] == term_key), "R2"].iloc[0]) * 100.0
             for s in sets
         ]
-        bars = ax3.barh(y_pos, vals, left=lefts, height=0.52, color=col, edgecolor="white", lw=1.0, label=short_lbl)
+        ax3.barh(y_pos, vals, left=lefts, height=0.52, color=col, edgecolor="white", lw=1.0, label=short_lbl)
         for i, v in enumerate(vals):
-            if v >= 6.8:
+            if v >= 10.5:
                 ax3.text(
                     lefts[i] + v / 2.0,
                     y_pos[i],
@@ -594,34 +615,45 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
                     va="center",
                     fontsize=8.2,
                     fontweight="bold",
-                    color="white" if col != "#D3D3D3" else "#333333",
+                    color="white" if col != "#D3D3D3" else "#222222",
+                )
+            elif v >= 6.5:
+                # Place narrow segment label cleanly ABOVE the bar so it never spills across dividers!
+                ax3.text(
+                    lefts[i] + v / 2.0,
+                    y_pos[i] - 0.34,
+                    f"{v:.1f}%",
+                    ha="center",
+                    va="bottom",
+                    fontsize=7.6,
+                    fontweight="bold",
+                    color="#7A4D00" if col == COL_QCMIX else "#333333",
                 )
         lefts += np.array(vals)
 
-    # Add conditional Run Order annotation
     ax3.set_yticks(y_pos)
-    ax3.set_yticklabels(short_sets, fontsize=8.5, fontweight="bold")
+    ax3.set_yticklabels(short_sets, fontsize=8.4, fontweight="bold")
     ax3.invert_yaxis()
+    ax3.set_ylim(2.55, -0.60)
     ax3.set_xlim(0, 102)
     ax3.set_xlabel("Variance Explained (PERMANOVA R², %)")
-    ax3.set_title("C. Multivariate Variance Partitioning (999 Perms)")
-    ax3.legend(loc="lower center", bbox_to_anchor=(0.5, -0.34), ncol=2, fontsize=8.0)
+    ax3.set_title("C. Multivariate PERMANOVA (999 Perms)", fontsize=10.5)
+    ax3.legend(loc="lower center", bbox_to_anchor=(0.5, -0.36), ncol=2, fontsize=8.0)
     ax3.text(
         0.5,
-        -0.17,
-        "All biological terms p_perm ≤ 0.022; conditional Run Order R² ≤ 1.1% (p > 0.06, n.s.)",
+        -0.19,
+        "Biological terms p ≤ 0.022; conditional Run Order R² ≤ 1.1% (p > 0.06, n.s.)",
         transform=ax3.transAxes,
         ha="center",
         fontsize=7.6,
-        style="italic",
-        color="#444444",
+        color="#333333",
     )
 
     fig.suptitle(
-        "Step 4 — Unsupervised Ordination (PCA) & Multivariate Variance Partitioning (PERMANOVA)",
-        fontsize=13,
+        "Unsupervised Ordination (PCA) & Multivariate Variance Partitioning (PERMANOVA)",
+        fontsize=12.8,
         fontweight="bold",
-        y=1.04,
+        y=1.03,
     )
     fig.savefig(FIG_DIR / "fig03_pca_and_variance_partitioning.png")
     plt.close(fig)
@@ -631,16 +663,18 @@ def make_fig03(meta, X_pqn_all, log2_pqn, res, t9):
 # FIGURE 4: Volcano Plots (Treatment & Interaction) + Model Comparison
 # =====================================================================
 def make_fig04(res):
-    fig = plt.figure(figsize=(16.5, 5.4))
-    gs = gridspec.GridSpec(1, 3, width_ratios=[1.15, 1.15, 0.95], wspace=0.28)
+    fig = plt.figure(figsize=(17.4, 5.2))
+    gs = gridspec.GridSpec(1, 3, width_ratios=[1.15, 1.15, 0.96], wspace=0.36)
 
-    # Helper category for coloring
     def assign_plot_cat(df):
         cats = np.full(len(df), "Other / Non-Significant", dtype=object)
         is_carry = df["origin_category"].isin(["Technical/Carryover", "Technical/Contaminant"]).values
         is_supp = (df["feature_category"] == "Shared_Endogenous").values & df["in_ion_suppression_window"].values & (df["beta_trt"] < 0).values
-        is_omep = (df["feature_category"] == "Omeprazole_Specific").values & (~is_carry)
-        is_endo_clean = (df["feature_category"] == "Shared_Endogenous").values & (~df["in_ion_suppression_window"].values) & (~is_carry)
+        is_omep = (
+            ((df["feature_category"] == "Omeprazole_Specific").values | (df["origin_category"] == "Omeprazole-derived").values | ((df["feature_category"] == "Shared_Endogenous").values & df["in_ion_suppression_window"].values & (df["beta_trt"] >= 2.0).values))
+            & (~is_carry)
+        )
+        is_endo_clean = (df["feature_category"] == "Shared_Endogenous").values & (~is_supp) & (~is_omep) & (~is_carry)
         cats[is_endo_clean] = "Clean Shared Endogenous"
         cats[is_omep] = "Omeprazole-Specific (Biotransformation)"
         cats[is_supp] = "ESI Ion-Suppression Zone (RT 1.80–2.25)"
@@ -661,36 +695,39 @@ def make_fig04(res):
     y_trt = -np.log10(df["q_trt"].clip(lower=1e-45))
     for cat_n, col, mk, sz, alp in cat_styles:
         m = df["plot_cat"] == cat_n
-        ax1.scatter(df.loc[m, "beta_trt"], y_trt[m], c=col, marker=mk, s=sz, alpha=alp, label=f"{cat_n} ({m.sum()})")
+        ax1.scatter(df.loc[m, "beta_trt"], y_trt[m], c=col, marker=mk, s=sz, alpha=alp, label=f"{cat_n} ({m.sum():,})")
     ax1.axhline(-np.log10(0.05), color="black", ls="--", lw=0.9)
     ax1.axvline(-1.0, color="gray", ls=":", lw=0.9)
     ax1.axvline(1.0, color="gray", ls=":", lw=0.9)
 
+    # Clean non-overlapping callouts well clear of upper-left legend!
     callouts_a = [
-        (2962, "Ufiprazole\n(ID 2962)", (-46, 10)),
-        (2465, "4-Desmethylthioether\n(ID 2465)", (-115, -18)),
-        (2480, "5-MeO-2-MBI\n(ID 2480)", (24, 18)),
-        (3605, "Benz-Me-Ufip\n(ID 3605)", (-96, -8)),
-        (2368, "ID 2368\n(C11H15NO3S2)", (26, -12)),
-        (2972, "Suppressed:\nID 2972", (-52, 8)),
-        (4553, "IPA (ID 4553)", (-58, 12)),
+        (2962, "Ufiprazole\n(ID 2962)", (11.8, 17.5)),
+        (2465, "4-Desmethylthioether\n(ID 2465)", (-5.5, 31.5)),
+        (2480, "5-MeO-2-MBI\n(ID 2480)", (10.8, 39.5)),
+        (3605, "Benz-Me-Ufip\n(ID 3605)", (-5.2, 24.5)),
+        (2368, "ID 2368\n($\\mathrm{C_{11}H_{15}NO_3S_2}$)", (11.0, 30.0)),
+        (2972, "Suppressed:\nID 2972", (-6.2, 11.0)),
+        (4553, "IPA (ID 4553)", (-6.0, 4.2)),
     ]
-    for fid, txt, off in callouts_a:
+    for fid, txt, xy_txt in callouts_a:
         if fid in df.index:
             ax1.annotate(
                 txt,
                 xy=(df.loc[fid, "beta_trt"], y_trt.loc[fid]),
-                xytext=off,
-                textcoords="offset points",
-                fontsize=7.2,
+                xytext=xy_txt,
+                fontsize=7.3,
                 fontweight="bold",
-                arrowprops=dict(arrowstyle="-", color="#333333", lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="#AAAAAA", alpha=0.9, lw=0.6),
+                arrowprops=dict(arrowstyle="->", color="#333333", lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="#AAAAAA", alpha=0.94, lw=0.6),
+                zorder=6,
             )
-    ax1.set_xlabel("Treatment Effect β_trt (log₂ Omeprazole / DMSO)")
-    ax1.set_ylabel("−log₁₀(BH-FDR q_trt)")
-    ax1.set_title("A. Treatment Main Effect (Run-Order Adjusted)")
-    ax1.legend(loc="upper left", fontsize=6.9)
+    ax1.set_xlim(-7.2, 18.2)
+    ax1.set_ylim(-1.5, 48.0)
+    ax1.set_xlabel(r"Treatment Effect $\beta_{\mathrm{trt}}$ ($\log_2$ Omeprazole / DMSO)")
+    ax1.set_ylabel(r"$-\log_{10}$(BH-FDR $q_{\mathrm{trt}}$)")
+    ax1.set_title("A. Treatment Main Effect (Run-Order Adjusted)", fontsize=10.5)
+    ax1.legend(loc="upper left", fontsize=6.9, framealpha=0.95)
     ax1.grid(alpha=0.20, linestyle="--")
 
     # Panel B: Treatment x Time Interaction Volcano
@@ -703,32 +740,34 @@ def make_fig04(res):
     ax2.axvline(0, color="gray", ls=":", lw=0.9)
 
     callouts_b = [
-        (2368, "ID 2368\n(m/z 274.06)", (-10, 8)),
-        (1775, "ID 1775\n(m/z 242.12)", (6, -8)),
-        (1553, "ID 1553\n(m/z 225.07)", (-52, -14)),
-        (2480, "5-MeO-2-MBI\n(ID 2480)", (-64, 6)),
-        (2465, "4-Desmethyl-\nthioether", (-68, -14)),
-        (3605, "ID 3605\n(m/z 344.14)", (8, -12)),
-        (2972, "ESI Suppressed\n(RT 1.87–2.14)", (-18, 12)),
+        (2368, "ID 2368 (m/z 274.06)", (0.88, 18.1)),
+        (1775, "ID 1775 (m/z 242.12)", (1.16, 15.8)),
+        (1553, "ID 1553 (m/z 225.07)", (1.12, 12.6)),
+        (2480, "5-MeO-2-MBI (2480)", (-0.18, 15.2)),
+        (2465, "4-Desmethyl (2465)", (-0.58, 12.6)),
+        (3605, "Benz-Me-Ufip (3605)", (1.06, 7.6)),
+        (2972, "ESI Suppressed\n(RT 1.87–2.14)", (-1.38, 14.8)),
     ]
-    for fid, txt, off in callouts_b:
+    for fid, txt, xy_txt in callouts_b:
         if fid in df.index:
             ax2.annotate(
                 txt,
                 xy=(df.loc[fid, "beta_int"], y_int.loc[fid]),
-                xytext=off,
-                textcoords="offset points",
-                fontsize=7.2,
+                xytext=xy_txt,
+                fontsize=7.3,
                 fontweight="bold",
-                arrowprops=dict(arrowstyle="-", color="#333333", lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="#AAAAAA", alpha=0.9, lw=0.6),
+                arrowprops=dict(arrowstyle="->", color="#333333", lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="#AAAAAA", alpha=0.94, lw=0.6),
+                zorder=6,
             )
-    ax2.set_xlabel("Treatment × Time Slope Difference β_int (log₂ FC / hr)")
-    ax2.set_ylabel("−log₁₀(BH-FDR q_int)")
-    ax2.set_title("B. Divergent Temporal Trajectories (Trt × Time)")
+    ax2.set_xlim(-1.48, 1.88)
+    ax2.set_ylim(-0.8, 20.0)
+    ax2.set_xlabel(r"Treatment × Time Slope $\beta_{\mathrm{int}}$ ($\log_2$ FC / hr)")
+    ax2.set_ylabel(r"$-\log_{10}$(BH-FDR $q_{\mathrm{int}}$)")
+    ax2.set_title("B. Divergent Temporal Trajectories (Trt × Time)", fontsize=10.5)
     ax2.grid(alpha=0.20, linestyle="--")
 
-    # Panel C: Model Comparison (Linear vs Categorical ANOVA — showing non-linear transient hits!)
+    # Panel C: Model Comparison
     ax3 = fig.add_subplot(gs[2])
     terms = ["Treatment\n(q < 0.05)", "Time\n(q < 0.05)", "Trt × Time\n(q < 0.05)"]
     lin_counts = [
@@ -741,7 +780,6 @@ def make_fig04(res):
         int((res["q_cat_time"] < 0.05).sum()),
         int((res["q_cat_int"] < 0.05).sum()),
     ]
-    # Specifically count non-linear-only interaction hits caught by categorical ANOVA
     nonlin_only = int(((res["q_cat_int"] < 0.05) & (res["q_int"] >= 0.05)).sum())
     x = np.arange(len(terms))
     w = 0.35
@@ -750,29 +788,30 @@ def make_fig04(res):
     for bars in (b1, b2):
         for bar in bars:
             h = bar.get_height()
-            ax3.text(bar.get_x() + bar.get_width() / 2, h + 45, f"{h:,}", ha="center", va="bottom", fontsize=8.0, fontweight="bold")
+            ax3.text(bar.get_x() + bar.get_width() / 2, h + 55, f"{h:,}", ha="center", va="bottom", fontsize=8.1, fontweight="bold")
     ax3.set_xticks(x)
     ax3.set_xticklabels(terms, fontsize=8.5)
     ax3.set_ylabel("Significant Features (BH-FDR q < 0.05)")
-    ax3.set_ylim(0, 4250)
-    ax3.set_title("C. Linear vs Non-Linear Categorical Models")
+    ax3.set_ylim(0, 4550)
+    ax3.set_title("C. Linear vs. Categorical Models", fontsize=10.5)
     ax3.legend(loc="upper left", fontsize=7.6)
     ax3.grid(axis="y", alpha=0.22, linestyle="--")
-    ax3.text(
-        0.97,
-        0.79,
-        f"+{nonlin_only} non-linear Trt×Time hits\ncaught only by Categorical ANOVA\n(e.g., transients ID 4470, ID 2719,\npeak at T3 then deplete by T8)",
-        transform=ax3.transAxes,
-        ha="right",
+    ax3.annotate(
+        f"+{nonlin_only} non-linear Trt×Time hits\ncaught only by Categorical ANOVA\n(e.g., transients ID 4470, 2719)",
+        xy=(2 + w / 2, 1980),
+        xytext=(1.42, 3420),
         fontsize=7.3,
-        bbox=dict(boxstyle="round,pad=0.3", fc="#FFF8F0", ec=COL_OMEPR, lw=0.8),
+        fontweight="bold",
+        color=COL_OMEPR,
+        arrowprops=dict(arrowstyle="->", color=COL_OMEPR, lw=1.2),
+        bbox=dict(boxstyle="round,pad=0.28", fc="#FFF8F0", ec=COL_OMEPR, lw=0.8),
     )
 
     fig.suptitle(
-        "Step 3 — Differential Abundance Statistics Across 3,414 Filtered Features (BH-FDR)",
-        fontsize=13,
+        "Differential Abundance Statistics Across 3,414 Filtered Features (BH-FDR)",
+        fontsize=12.8,
         fontweight="bold",
-        y=1.03,
+        y=1.02,
     )
     fig.savefig(FIG_DIR / "fig04_statistical_volcano_and_model_comparison.png")
     plt.close(fig)
@@ -782,8 +821,8 @@ def make_fig04(res):
 # FIGURE 5: Temporal Heatmap & 4 Kinetic Trajectory Modules
 # =====================================================================
 def make_fig05(meta, log2_pqn, res, t3):
-    fig = plt.figure(figsize=(16.5, 7.6))
-    gs = gridspec.GridSpec(1, 2, width_ratios=[1.25, 1.0], wspace=0.26)
+    fig = plt.figure(figsize=(17.6, 6.8))
+    gs = gridspec.GridSpec(1, 2, width_ratios=[1.22, 1.0], wspace=0.34)
 
     bac = meta[(meta["bacteria"] == "Yes") & (~meta["is_failed_injection"])].copy()
     tp_means = pd.DataFrame(
@@ -793,18 +832,18 @@ def make_fig05(meta, log2_pqn, res, t3):
         }
     )
 
-    # Panel A: Top 28 IIMN-collapsed Omeprazole-dynamic features sorted by kinetic module & peak time
+    # Panel A: Top 18 landmark IIMN-collapsed Omeprazole-dynamic features (large, legible labels!)
     ax1 = fig.add_subplot(gs[0])
-    # Curated + top intensity features covering all 4 modules
-    must_include = [2962, 2480, 2465, 3605, 2500, 1677, 2368, 1553, 1775, 2027, 2618, 2311, 2626, 4470, 2719, 2478, 2497, 2685, 2828, 4157]
-    extra = [
+    hm_ids = [
         i
-        for i in t3.index
-        if i not in must_include and pd.notna(res.loc[i, "kinetic_module"])
-    ][:8]
-    hm_ids = [i for i in must_include + extra if i in tp_means.index]
+        for i in [
+            2497, 2685, 2478, 4470, 2719, 4157,
+            2828, 4709,
+            3605, 2500, 1677, 2465, 2618, 2480, 2311, 1775, 2368, 2962, 1553,
+        ]
+        if i in tp_means.index
+    ]
 
-    # Sort by kinetic module order (M4 -> M3 -> M2 -> M1) then spearman_time_omepr
     mod_rank = {
         "M4: Early Precursors Depleted (T0-T3->T8)": 0,
         "M3: Early-Mid Intermediates (Peak T2-T3)": 1,
@@ -823,53 +862,46 @@ def make_fig05(meta, log2_pqn, res, t3):
     im = ax1.imshow(Mz, cmap="RdBu_r", vmin=-2.0, vmax=2.0, aspect="auto")
     ax1.axvline(8.5, color="black", lw=2.0)
 
-    # Pretty row labels (with curated identities / putative formulas!)
     custom_labels = {
-        2962: "ID 2962: Ufiprazole / Omep. sulfide (330.13)",
-        2480: "ID 2480: 5-MeO-2-mercaptobenzimid. (181.04)",
-        2465: "ID 2465: Omep. 4-desmethylthioether (316.11)",
+        2962: "ID 2962: Ufiprazole / Sulfide (330.13)",
+        2480: "ID 2480: 5-MeO-2-MBI (181.04)",
+        2465: "ID 2465: 4-Desmethylthioether (316.11)",
         2828: "ID 2828: Parent Omeprazole* (346.12)",
-        4157: "ID 4157: Omeprazole -H2O isomer (328.11)",
-        3605: "ID 3605: Benz-Me-Ufiprazole [C18H21N3O2S]",
-        2500: "ID 2500: Pyr-Me-Ufiprazole [C18H21N3O2S]",
-        1677: "ID 1677: Me-5-MeO-2-MBI [C9H10N2OS]",
-        2618: "ID 2618: Me-Omeprazole [C18H21N3O3S]",
-        2368: "ID 2368: Unknown 274.06 [C11H15NO3S2, 2S]",
-        1553: "ID 1553: Unknown 225.07 [C10H12N2O2S]",
-        1775: "ID 1775: Unknown 242.12 [C12H19NO2S, 1S]",
-        2027: "ID 2027: Unknown 260.08 [C11H17NO2S2]",
-        4470: "ID 4470: Transient 328.13 [C17H17N3O4]",
-        2719: "ID 2719: Transient 342.14 [C18H19N3O4]",
+        4157: "ID 4157: Omeprazole −H₂O (328.11)",
+        3605: "ID 3605: Benz-Me-Ufip [C₁₈H₂₁N₃O₂S]",
+        2500: "ID 2500: Pyr-Me-Ufip [C₁₈H₂₁N₃O₂S]",
+        1677: "ID 1677: Me-5-MeO-2-MBI [C₉H₁₀N₂OS]",
+        2618: "ID 2618: Me-Omeprazole [C₁₈H₂₁N₃O₃S]",
+        2368: "ID 2368: Unknown 274.06 [C₁₁H₁₅NO₃S₂, 2S]",
+        1553: "ID 1553: Unknown 225.07 [C₁₀H₁₂N₂O₂S]",
+        1775: "ID 1775: Unknown 242.12 [C₁₂H₁₉NO₂S, 1S]",
+        4470: "ID 4470: Transient 328.13 [C₁₇H₁₇N₃O₄]",
+        2719: "ID 2719: Transient 342.14 [C₁₈H₁₉N₃O₄]",
         2311: "ID 2311: Late isomer 346.12 (RT 1.38)",
-        2626: "ID 2626: Late isomer 346.12 (RT 1.63)",
+        2478: "ID 2478: Transient 298.15 [C₁₇H₁₉N₃O₂]",
+        2497: "ID 2497: Transient 296.14 [C₁₇H₁₇N₃O₂]",
+        2685: "ID 2685: Transient 326.15 [C₁₈H₁₉N₃O₃]",
+        4709: "ID 4709: Mid-late 338.10 (RT 2.68)",
     }
-    ylabels = []
-    for fid in hm_ids:
-        if fid in custom_labels:
-            ylabels.append(custom_labels[fid])
-        else:
-            r = res.loc[fid]
-            pf = t3.loc[fid, "putative_formula"] if fid in t3.index and pd.notna(t3.loc[fid, "putative_formula"]) else ""
-            pf_txt = f" [{pf}]" if pf and pf != "n/a" else ""
-            ylabels.append(f"ID {fid}: m/z {r['mz']:.2f} (RT {r['rt']:.2f}){pf_txt}")
+    ylabels = [custom_labels.get(fid, f"ID {fid}: m/z {res.loc[fid,'mz']:.2f}") for fid in hm_ids]
 
     ax1.set_yticks(range(len(hm_ids)))
-    ax1.set_yticklabels(ylabels, fontsize=7.6)
+    ax1.set_yticklabels(ylabels, fontsize=8.8)
     ax1.set_xticks(range(18))
-    ax1.set_xticklabels([f"T{t}" for t in range(9)] * 2, fontsize=7.8)
-    ax1.text(4, -1.25, "DMSO Control (T0–T8)", ha="center", va="bottom", fontsize=9.2, fontweight="bold", color=COL_DMSO)
-    ax1.text(13, -1.25, "Omeprazole Treated (T0–T8)", ha="center", va="bottom", fontsize=9.2, fontweight="bold", color=COL_OMEPR)
-    cbar = plt.colorbar(im, ax=ax1, fraction=0.032, pad=0.02)
-    cbar.set_label("Row Z-score (log₂ PQN)", fontsize=8.5)
-    ax1.set_title("A. Key Omeprazole Biotransformation Heatmap (IIMN-Collapsed)", pad=22)
+    ax1.set_xticklabels([f"T{t}" for t in range(9)] * 2, fontsize=8.5)
+    ax1.text(4, -1.05, "DMSO Control (T0–T8)", ha="center", va="bottom", fontsize=9.8, fontweight="bold", color=COL_DMSO)
+    ax1.text(13, -1.05, "Omeprazole Treated (T0–T8)", ha="center", va="bottom", fontsize=9.8, fontweight="bold", color=COL_OMEPR)
+    cbar = plt.colorbar(im, ax=ax1, fraction=0.032, pad=0.025)
+    cbar.set_label("Row Z-score (log₂ PQN)", fontsize=9.0)
+    ax1.set_title("A. Top 19 Landmark Biotransformation Features (IIMN-Collapsed)", fontsize=10.8, pad=30)
 
     # Panel B: 4 K-Means Kinetic Modules (2x2 subgrid on the right)
-    gs_r = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=gs[1], hspace=0.36, wspace=0.26)
+    gs_r = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=gs[1], hspace=0.42, wspace=0.28)
     mod_specs = [
-        ("M1: Monotonic Accumulation (T0->T8)", COL_OMEPR, "M1: Monotonic Products\n(Ufiprazole, 2480, 2465, 2368, 1553)"),
-        ("M2: Mid-Late Transients (Peak T4-T5)", COL_QCMIX, "M2: Mid-Late Transients\n(Peak T4–T5; incl. queue-labile 2828*)"),
-        ("M3: Early-Mid Intermediates (Peak T2-T3)", COL_SUPP, "M3: Early-Mid Intermediates\n(Peak T2–T3: ID 4470, 2719, 2478)"),
-        ("M4: Early Precursors Depleted (T0-T3->T8)", COL_DMSO, "M4: Early Depleted Precursors\n(Depleted T0–T3 → T8)"),
+        ("M1: Monotonic Accumulation (T0->T8)", COL_OMEPR, "M1: Monotonic Products\n(Ufiprazole, 2480, 2465, 2368)"),
+        ("M2: Mid-Late Transients (Peak T4-T5)", COL_QCMIX, "M2: Mid-Late Transients\n(Peak T4–T5; incl. 2828*)"),
+        ("M3: Early-Mid Intermediates (Peak T2-T3)", COL_SUPP, "M3: Early-Mid Intermediates\n(Peak T2–T3: ID 4470, 2719)"),
+        ("M4: Early Precursors Depleted (T0-T3->T8)", COL_DMSO, "M4: Early Depleted Precursors\n(Exhausted T0–T3 → T8)"),
     ]
     t_vals = np.arange(9)
     for idx, (mod_key, col, title_sub) in enumerate(mod_specs):
@@ -877,7 +909,6 @@ def make_fig05(meta, log2_pqn, res, t3):
         m_ids = res.index[res["kinetic_module"] == mod_key]
         mat = tp_means.loc[m_ids, [f"Omeprazole_T{t}" for t in range(9)]].values
         zmat = (mat - mat.mean(axis=1, keepdims=True)) / (mat.std(axis=1, keepdims=True) + 1e-8)
-        # Plot up to 50 individual traces faintly
         rng = np.random.default_rng(42)
         pick = rng.choice(len(zmat), size=min(50, len(zmat)), replace=False)
         for p in pick:
@@ -885,21 +916,21 @@ def make_fig05(meta, log2_pqn, res, t3):
         med_c = np.median(zmat, axis=0)
         q25, q75 = np.percentile(zmat, [25, 75], axis=0)
         ax_m.fill_between(t_vals, q25, q75, color=col, alpha=0.25)
-        ax_m.plot(t_vals, med_c, color=col, lw=2.5, marker="o", ms=4.5)
+        ax_m.plot(t_vals, med_c, color=col, lw=2.5, marker="o", ms=4.8)
         ax_m.axhline(0, color="gray", ls=":", lw=0.8)
         ax_m.set_xticks(range(0, 9, 2))
-        ax_m.set_xticklabels([f"T{t}" for t in range(0, 9, 2)])
+        ax_m.set_xticklabels([f"T{t}" for t in range(0, 9, 2)], fontsize=8.5)
         ax_m.set_ylim(-2.4, 2.4)
-        ax_m.set_title(f"{title_sub}\n(n = {len(m_ids)} unique entities)", fontsize=8.5, fontweight="bold")
+        ax_m.set_title(f"{title_sub}\n(n = {len(m_ids)} unique entities)", fontsize=9.0, fontweight="bold")
         if idx % 2 == 0:
-            ax_m.set_ylabel("Z-score (Omeprazole)")
+            ax_m.set_ylabel("Z-score (Omeprazole)", fontsize=8.8)
         if idx >= 2:
-            ax_m.set_xlabel("Timepoint")
+            ax_m.set_xlabel("Timepoint", fontsize=8.8)
         ax_m.grid(alpha=0.20, linestyle="--")
 
     fig.suptitle(
-        "Step 4 — Temporal Heatmap & Unsupervised Kinetic Clustering of 606 Unique Omeprazole-Dynamic Entities",
-        fontsize=13,
+        "Temporal Heatmap & Unsupervised Kinetic Clustering of 606 Unique Omeprazole-Dynamic Entities",
+        fontsize=12.8,
         fontweight="bold",
         y=0.99,
     )
@@ -911,8 +942,8 @@ def make_fig05(meta, log2_pqn, res, t3):
 # FIGURE 6: Supervised ML Classification & Discriminant Feature Ranking
 # =====================================================================
 def make_fig06(t8, t8b, t3):
-    fig = plt.figure(figsize=(17.5, 6.2))
-    gs = gridspec.GridSpec(1, 2, width_ratios=[0.85, 1.35], wspace=0.92)
+    fig = plt.figure(figsize=(17.6, 5.8))
+    gs = gridspec.GridSpec(1, 2, width_ratios=[0.88, 1.35], wspace=0.88)
 
     # Panel A: 5-Fold Stratified CV Performance
     ax1 = fig.add_subplot(gs[0])
@@ -932,26 +963,37 @@ def make_fig06(t8, t8b, t3):
     for idx_t, task in enumerate(tasks_ord):
         sub_rf = agg[(agg["Task"] == task) & (agg["Model"] == "Random Forest")].iloc[0]
         sub_lr = agg[(agg["Task"] == task) & (agg["Model"] != "Random Forest")].iloc[0]
-        ax1.barh(idx_t - h / 2, sub_rf[("Balanced_Acc", "mean")], h, xerr=sub_rf[("Balanced_Acc", "std")], color=COL_DMSO, alpha=0.88, capsize=3, label="Random Forest (Bal. Acc.)" if idx_t == 0 else None)
-        ax1.barh(idx_t + h / 2, sub_lr[("Balanced_Acc", "mean")], h, xerr=sub_lr[("Balanced_Acc", "std")], color=COL_OMEPR, alpha=0.88, capsize=3, label="Regularized LogReg (Bal. Acc.)" if idx_t == 0 else None)
-        ax1.text(sub_rf[("Balanced_Acc", "mean")] - 0.015, idx_t - h / 2, f"Acc={sub_rf[('Balanced_Acc','mean')]:.3f} | AUC={sub_rf[('ROC_AUC','mean')]:.3f}", ha="right", va="center", color="white", fontsize=7.5, fontweight="bold")
-        ax1.text(sub_lr[("Balanced_Acc", "mean")] - 0.015, idx_t + h / 2, f"Acc={sub_lr[('Balanced_Acc','mean')]:.3f} | AUC={sub_lr[('ROC_AUC','mean')]:.3f}", ha="right", va="center", color="white", fontsize=7.5, fontweight="bold")
+
+        rf_mu, rf_sd = float(sub_rf[("Balanced_Acc", "mean")]), float(sub_rf[("Balanced_Acc", "std")])
+        lr_mu, lr_sd = float(sub_lr[("Balanced_Acc", "mean")]), float(sub_lr[("Balanced_Acc", "std")])
+        # Asymmetric clipped error bars so upper error never exceeds 1.00!
+        rf_err = [[rf_sd], [min(rf_sd, 1.0 - rf_mu)]] if rf_sd > 1e-4 else None
+        lr_err = [[lr_sd], [min(lr_sd, 1.0 - lr_mu)]] if lr_sd > 1e-4 else None
+
+        ax1.barh(idx_t - h / 2, rf_mu, h, xerr=rf_err, color=COL_DMSO, alpha=0.88, capsize=3 if rf_err else 0, label="Random Forest (Bal. Acc.)" if idx_t == 0 else None)
+        ax1.barh(idx_t + h / 2, lr_mu, h, xerr=lr_err, color=COL_OMEPR, alpha=0.88, capsize=3 if lr_err else 0, label="Regularized LogReg (Bal. Acc.)" if idx_t == 0 else None)
+
+        # Position label cleanly to the left of any error whisker!
+        rf_txt_x = (rf_mu - rf_sd - 0.015) if rf_sd > 1e-4 else (rf_mu - 0.015)
+        lr_txt_x = (lr_mu - lr_sd - 0.015) if lr_sd > 1e-4 else (lr_mu - 0.015)
+        ax1.text(rf_txt_x, idx_t - h / 2, f"Acc={rf_mu:.3f} | AUC={sub_rf[('ROC_AUC','mean')]:.3f}", ha="right", va="center", color="white", fontsize=8.0, fontweight="bold")
+        ax1.text(lr_txt_x, idx_t + h / 2, f"Acc={lr_mu:.3f} | AUC={sub_lr[('ROC_AUC','mean')]:.3f}", ha="right", va="center", color="white", fontsize=8.0, fontweight="bold")
 
     ax1.set_yticks(y)
-    ax1.set_yticklabels(short_t, fontsize=8.4, fontweight="bold")
+    ax1.set_yticklabels(short_t, fontsize=8.8, fontweight="bold")
     ax1.invert_yaxis()
-    ax1.set_xlim(0.5, 1.06)
-    ax1.set_xlabel("5-Fold Stratified CV Balanced Accuracy (mean ± SD)")
-    ax1.set_title("A. Supervised ML Classification (5-Fold CV)")
-    ax1.legend(loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=1, fontsize=8.0)
+    ax1.set_xlim(0.5, 1.04)
+    ax1.set_xlabel("5-Fold Stratified CV Balanced Accuracy (mean ± SD, capped at 1.0)")
+    ax1.set_title("A. Supervised ML Classification (5-Fold CV)", fontsize=10.8)
+    ax1.legend(loc="upper center", bbox_to_anchor=(0.5, -0.15), ncol=2, fontsize=8.2)
     ax1.grid(axis="x", alpha=0.22, linestyle="--")
 
-    # Panel B: Top 18 Discriminant Features (Annotated + Unannotated Dark Metabolome)
+    # Panel B: Top 15 Discriminant Features (larger font, proper math subscripts!)
     ax2 = fig.add_subplot(gs[1])
-    top18 = t8.head(18).copy()
+    top15 = t8.head(15).copy()
     labels_b = []
     colors_b = []
-    for fid, r in top18.iterrows():
+    for fid, r in top15.iterrows():
         is_ann = pd.notna(r["compound_name"])
         if fid == 2618:
             lbl = "ID 2618 | m/z 360.14 | Put. Me-Omeprazole"
@@ -963,8 +1005,6 @@ def make_fig06(t8, t8b, t3):
             lbl = "ID 1553 | m/z 225.07 | C₁₀H₁₂N₂O₂S (r=0.99)"
         elif fid == 2368:
             lbl = "ID 2368 | m/z 274.06 | C₁₁H₁₅NO₃S₂ (2S)"
-        elif fid == 4470:
-            lbl = "ID 4470 | m/z 328.13 | Transient C₁₇H₁₇N₃O₄"
         elif is_ann:
             lbl = f"ID {fid} | m/z {r['mz']:.2f} | {str(r['compound_name'])[:22]} [Ann.]"
         else:
@@ -972,38 +1012,38 @@ def make_fig06(t8, t8b, t3):
         labels_b.append(lbl)
         colors_b.append(COL_MED if is_ann else COL_OMEPR)
 
-    y2 = np.arange(len(top18))
-    ax2.barh(y2, top18["composite_priority_score"].values, color=colors_b, alpha=0.88, edgecolor="white", lw=0.6)
-    for i, (fid, r) in enumerate(top18.iterrows()):
+    y2 = np.arange(len(top15))
+    ax2.barh(y2, top15["composite_priority_score"].values, color=colors_b, alpha=0.88, edgecolor="white", lw=0.6)
+    for i, (fid, r) in enumerate(top15.iterrows()):
         ax2.text(
             r["composite_priority_score"] + 0.004,
             i,
-            f"β_trt={r['beta_trt']:+.1f}, r_t={r['spearman_time_omepr']:+.2f}",
+            rf"$\beta_{{\mathrm{{trt}}}}={r['beta_trt']:+.1f}$,  $r_t={r['spearman_time_omepr']:+.2f}$",
             va="center",
-            fontsize=7.3,
-            color="#333333",
+            fontsize=8.0,
+            color="#222222",
         )
     ax2.set_yticks(y2)
-    ax2.set_yticklabels(labels_b, fontsize=7.9)
+    ax2.set_yticklabels(labels_b, fontsize=8.4)
     ax2.invert_yaxis()
-    ax2.set_xlim(0.75, 1.07)
+    ax2.set_xlim(0.75, 1.06)
     ax2.set_xlabel("Composite Priority Score (Effect Size + FDR + RF Importance + Consistency)")
-    ax2.set_title("B. Top 18 Discriminant Features: Annotated & Dark Metabolome")
+    ax2.set_title("B. Top 15 Discriminant Features: Annotated & Dark Metabolome", fontsize=10.8)
     ax2.legend(
         handles=[
             mpatches.Patch(color=COL_MED, label="MS2 Library Annotated"),
             mpatches.Patch(color=COL_OMEPR, label="Unannotated Candidate (Dark Metabolome)"),
         ],
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.14),
+        bbox_to_anchor=(0.5, -0.15),
         ncol=2,
-        fontsize=8.0,
+        fontsize=8.2,
     )
     ax2.grid(axis="x", alpha=0.22, linestyle="--")
 
     fig.suptitle(
-        "Week 9 (Machine Learning) — Supervised Classification & Unknown Feature Prioritization",
-        fontsize=13,
+        "Supervised Machine Learning Classification & Dark-Metabolome Feature Prioritization",
+        fontsize=12.8,
         fontweight="bold",
         y=1.02,
     )
@@ -1015,14 +1055,13 @@ def make_fig06(t8, t8b, t3):
 # FIGURE 7: Chemical Class Enrichment (ORA) & Endogenous Trajectories
 # =====================================================================
 def make_fig07(meta, X_pqn_all, t5):
-    fig = plt.figure(figsize=(16.5, 8.2))
-    gs = gridspec.GridSpec(1, 2, width_ratios=[0.95, 1.35], wspace=0.28)
+    fig = plt.figure(figsize=(17.6, 7.6))
+    gs = gridspec.GridSpec(1, 2, width_ratios=[0.98, 1.38], wspace=0.30)
 
-    # Panel A: Chemical Class Over-Representation Bubble Plot
+    # Panel A: Chemical Class Over-Representation Bubble Plot (clean non-overlapping labels!)
     ax1 = fig.add_subplot(gs[0])
     plot_ora = t5[t5["Hits_in_Class"] >= 2].copy()
     plot_ora["neglog10_q"] = -np.log10(plot_ora["q_value"].clip(lower=1e-18))
-    # Sort by Hit_Set then p_value
     set_order = [
         "Omeprazole-Enriched (q<0.05, log2FC>1)",
         "Com20 Time-Increasing (Bacterial Production)",
@@ -1042,56 +1081,57 @@ def make_fig07(meta, X_pqn_all, t5):
         "Stable mGAM Medium": COL_BLANK,
     }
     plot_ora["set_short"] = plot_ora["Hit_Set"].map(short_set)
-    # Keep top classes per hit set (p < 0.25 or top 3)
-    sel_rows = []
-    for s in set_order:
-        sub = plot_ora[plot_ora["Hit_Set"] == s].sort_values("p_value").head(4)
-        sel_rows.append(sub)
+    # Keep top 3 classes per hit set for clean generous vertical spacing!
+    sel_rows = [plot_ora[plot_ora["Hit_Set"] == s].sort_values("p_value").head(3) for s in set_order]
     ora_sub = pd.concat(sel_rows, ignore_index=True)
     ora_sub["row_lbl"] = ora_sub["Chemical_Class"] + "\n[" + ora_sub["set_short"] + "]"
 
     y = np.arange(len(ora_sub))
     colors = [set_cols[s] for s in ora_sub["set_short"]]
-    sizes = 40 + ora_sub["Hits_in_Class"].values * 14
-    ax1.axvline(-np.log10(0.05), color="black", ls="--", lw=1.0, label="BH-FDR q = 0.05")
-    ax1.axvline(-np.log10(0.10), color="gray", ls=":", lw=0.9, label="BH-FDR q = 0.10")
+    sizes = 55 + ora_sub["Hits_in_Class"].values * 12
+    q05_x = -np.log10(0.05)
+    ax1.axvline(q05_x, color="black", ls="--", lw=1.1, zorder=1)
     for i, r in ora_sub.iterrows():
-        ax1.hlines(i, 0, r["neglog10_q"], color=colors[i], lw=1.8, alpha=0.6)
-    ax1.scatter(ora_sub["neglog10_q"], y, s=sizes, c=colors, edgecolors="black", lw=0.7, zorder=4)
+        ax1.hlines(i, 0, r["neglog10_q"], color=colors[i], lw=2.0, alpha=0.65, zorder=2)
+    ax1.scatter(ora_sub["neglog10_q"], y, s=sizes, c=colors, edgecolors="black", lw=0.75, zorder=4)
     for i, r in ora_sub.iterrows():
-        x_off = 0.55 + 0.025 * r["Hits_in_Class"]
+        # Place labels strictly to the right of BOTH the bubble AND the q=0.05 dashed line!
+        base_x = r["neglog10_q"] + 0.65 + 0.03 * r["Hits_in_Class"]
+        lbl_x = max(base_x, q05_x + 0.35) if r["neglog10_q"] < q05_x else base_x
         ax1.text(
-            r["neglog10_q"] + x_off,
+            lbl_x,
             i,
             f"{r['Hits_in_Class']}/{r['Total_in_Class']} ({r['Fold_Enrichment']:.1f}×)",
             va="center",
-            fontsize=7.4,
+            fontsize=8.2,
             fontweight="bold" if r["q_value"] < 0.05 else "normal",
+            bbox=dict(boxstyle="round,pad=0.10", fc="white", ec="none", alpha=0.88),
+            zorder=5,
         )
     ax1.set_yticks(y)
-    ax1.set_yticklabels(ora_sub["row_lbl"], fontsize=7.6)
+    ax1.set_yticklabels(ora_sub["row_lbl"], fontsize=8.3)
     ax1.invert_yaxis()
-    ax1.set_xlim(-0.3, 23.0)
-    ax1.set_xlabel("Enrichment Significance −log₁₀(BH-FDR q-value)")
-    ax1.set_title("A. Chemical Class Enrichment (Fisher's Exact ORA)")
+    ax1.set_xlim(-0.4, 23.2)
+    ax1.set_xlabel(r"Enrichment Significance $-\log_{10}$(BH-FDR $q$-value)")
+    ax1.set_title("A. Chemical Class Enrichment (Fisher's Exact ORA)", fontsize=10.8)
     legend_els = [mpatches.Patch(color=c, label=k) for k, c in set_cols.items()] + [
-        Line2D([0], [0], color="black", ls="--", lw=1.0, label="q = 0.05")
+        Line2D([0], [0], color="black", ls="--", lw=1.1, label="BH-FDR q = 0.05")
     ]
-    ax1.legend(handles=legend_els, loc="lower right", fontsize=7.4)
+    ax1.legend(handles=legend_els, loc="lower right", fontsize=8.0)
     ax1.grid(axis="x", alpha=0.22, linestyle="--")
 
     # Panel B: 6-panel Endogenous Com20 Trajectories (+ 1 suppression artifact comparison!)
-    gs_r = gridspec.GridSpecFromSubplotSpec(3, 2, subplot_spec=gs[1], hspace=0.45, wspace=0.25)
+    gs_r = gridspec.GridSpecFromSubplotSpec(3, 2, subplot_spec=gs[1], hspace=0.58, wspace=0.28)
     bac = meta[(meta["bacteria"] == "Yes") & (~meta["is_failed_injection"])].copy()
     med_files = meta[meta["drug"] == "Medium"]["filename"].tolist()
 
     panels_endo = [
-        (4553, "Indole-3-propionic acid (ID 4553, RT 2.60)\nGenuine 2× Attenuation in Omeprazole (q_trt=0.001)", COL_MED),
-        (2972, "N-Phenethylacetamide (ID 2972, RT 1.87)\nARTIFACT: Suppressed by Co-Eluting Ufiprazole!", COL_SUPP),
+        (4553, r"Indole-3-propionic acid (ID 4553, RT 2.60)" + "\n" + r"Genuine 2× Attenuation ($q_{\mathrm{trt}}=0.001$)", COL_MED),
+        (2972, "N-Phenethylacetamide (ID 2972, RT 1.87)\nARTIFACT: Suppressed by Ufiprazole!", COL_SUPP),
         (167, "N-Acetylhistamine (ID 167, RT 0.23)\nConserved >100× Bacterial Production", COL_DMSO),
-        (9646, "Gly-C17:1 (ID 9646, RT 5.05)\nConserved Microbial N-Acyl Glycine Synthesis", COL_DMSO),
-        (9772, "Oleic acid (ID 9772, RT 5.10)\nConserved Bacterial Lipid Uptake/Depletion", COL_DMSO),
-        (7477, "PE 13:0 (ID 7477, RT 3.97)\nDelayed Bacterial Lipid Synthesis in Omeprazole", COL_OMEPR),
+        (9646, "Gly-C17:1 (ID 9646, RT 5.05)\nConserved Microbial N-Acyl Glycine", COL_DMSO),
+        (9772, "Oleic acid (ID 9772, RT 5.10)\nConserved Bacterial Lipid Uptake", COL_DMSO),
+        (7477, "PE 13:0 (ID 7477, RT 3.97)\nDelayed Bacterial Lipid in Omeprazole", COL_OMEPR),
     ]
 
     for idx, (fid, title_p, accent) in enumerate(panels_endo):
@@ -1103,28 +1143,28 @@ def make_fig07(meta, X_pqn_all, t5):
             g = df_t.groupby("t")["v"]
             t_x = g.mean().index.values
             mu, sd = g.mean().values, g.std().fillna(0).values
-            ax_e.plot(t_x, mu, color=col, lw=2.0, marker=mk, ms=4.5, label=drug)
+            ax_e.plot(t_x, mu, color=col, lw=2.1, marker=mk, ms=4.6, label=drug)
             ax_e.fill_between(t_x, np.maximum(mu - sd, 0), mu + sd, color=col, alpha=0.16)
             ax_e.scatter(df_t["t"], df_t["v"], color=col, s=14, alpha=0.55)
         med_val = X_pqn_all.loc[fid, med_files].mean()
-        ax_e.axhline(med_val, color=COL_MED, ls=":", lw=1.3, label="T0 Medium" if idx == 0 else None)
+        ax_e.axhline(med_val, color=COL_MED, ls=":", lw=1.4, label="T0 Medium" if idx == 0 else None)
         if idx == 1:
             ax_e.set_facecolor("#FAF7FF")
-        ax_e.set_title(title_p, fontsize=8.3, fontweight="bold", color=COL_SUPP if idx == 1 else "#111111")
+        ax_e.set_title(title_p, fontsize=8.8, fontweight="bold", color=COL_SUPP if idx == 1 else "#111111", pad=12)
         ax_e.set_xticks(range(0, 9, 2))
-        ax_e.set_xticklabels([f"T{t}" for t in range(0, 9, 2)])
+        ax_e.set_xticklabels([f"T{t}" for t in range(0, 9, 2)], fontsize=8.4)
         ax_e.ticklabel_format(axis="y", style="sci", scilimits=(-2, 3))
         if idx % 2 == 0:
-            ax_e.set_ylabel("PQN Peak Area")
+            ax_e.set_ylabel("PQN Peak Area", fontsize=8.6)
         if idx >= 4:
-            ax_e.set_xlabel("Timepoint")
+            ax_e.set_xlabel("Timepoint", fontsize=8.6)
         if idx == 0:
-            ax_e.legend(loc="upper left", fontsize=7.2)
+            ax_e.legend(loc="upper left", fontsize=7.6)
         ax_e.grid(alpha=0.20, linestyle="--")
 
     fig.suptitle(
-        "Step 5 — Chemical Class Enrichment & Endogenous Com20 Metabolic Trajectories",
-        fontsize=13,
+        "Chemical Class Over-Representation & Endogenous Com20 Metabolic Trajectories",
+        fontsize=12.8,
         fontweight="bold",
         y=0.99,
     )
@@ -1156,8 +1196,8 @@ def repel_label_positions(coords_dict, min_dx=0.22, min_dy=0.11, n_iter=80):
 
 
 def make_fig08(res, t6, t7):
-    fig = plt.figure(figsize=(17.2, 8.2))
-    gs = gridspec.GridSpec(1, 2, width_ratios=[1.08, 1.0], wspace=0.16)
+    fig = plt.figure(figsize=(17.6, 8.2))
+    gs = gridspec.GridSpec(1, 2, width_ratios=[1.08, 1.0], wspace=0.18)
 
     # Panel A: Omeprazole Biotransformation Mass-Difference Network
     ax1 = fig.add_subplot(gs[0])
@@ -1173,7 +1213,7 @@ def make_fig08(res, t6, t7):
             sub_nodes.update(list(G_bio.neighbors(n)))
     H_bio = G_bio.subgraph([n for n in sub_nodes if G_bio.degree(n) > 0]).copy()
 
-    pos = nx.kamada_kawai_layout(H_bio, scale=1.2)
+    pos = nx.kamada_kawai_layout(H_bio, scale=1.25)
 
     edge_palette = {
         "Sulfoxide Reduction / Oxidation (±O)": COL_OMEPR,
@@ -1201,8 +1241,8 @@ def make_fig08(res, t6, t7):
     node_cols, node_sizes = [], []
     for n in H_bio.nodes():
         d = H_bio.nodes[n]
-        node_cols.append(mod_colors.get(d.get("kinetic_module", ""), "#888888"))
-        node_sizes.append(120 + 75 * np.log10(max(float(d.get("max_omepr_pqn", 1e4)), 1e4) / 1e4))
+        node_cols.append(mod_colors.get(d.get("kinetic_module", ""), "#8C8C8C"))
+        node_sizes.append(125 + 75 * np.log10(max(float(d.get("max_omepr_pqn", 1e4)), 1e4) / 1e4))
 
     nx.draw_networkx_nodes(
         H_bio,
@@ -1215,6 +1255,7 @@ def make_fig08(res, t6, t7):
         alpha=0.92,
     )
 
+    # Push callout labels radially onto a clean outer perimeter so central nodes stay 100% visible!
     pretty_net_lbl = {
         "2828": "Omeprazole (346.12)",
         "2962": "UFIPRAZOLE (330.13)",
@@ -1225,45 +1266,65 @@ def make_fig08(res, t6, t7):
         "2500": "Pyr-Me-Ufip (344.14)",
         "2618": "Me-Omeprazole (360.14)",
         "2368": "ID 2368: 274.06 (2S)",
-        "2678": "ID 2678: 288.07 (+CH2)",
+        "2678": "ID 2678: 288.07 (+CH₂)",
         "4470": "ID 4470: 328.13 (T3)",
-        "2719": "ID 2719: 342.14 (T3)",
-        "2311": "ID 2311: 346.12 (late)",
-        "4157": "Omep. -H2O (328.11)",
+        "4157": "Omep. −H₂O (328.11)",
     }
-    init_lbl_pos = {n: [pos[n][0], pos[n][1] + 0.08] for n in pretty_net_lbl if n in pos}
-    rep_pos = repel_label_positions(init_lbl_pos, min_dx=0.45, min_dy=0.16, n_iter=120)
+    cx1 = np.mean([p[0] for p in pos.values()])
+    cy1 = np.mean([p[1] for p in pos.values()])
+    init_lbl_pos = {}
+    for n in pretty_net_lbl:
+        if n in pos:
+            v = np.array(pos[n]) - np.array([cx1, cy1])
+            norm = np.linalg.norm(v) + 1e-6
+            # Push all labels onto an outer ring outside the cluster core
+            init_lbl_pos[n] = np.array([cx1, cy1]) + (v / norm) * max(norm + 0.55, 1.38)
+    rep_pos = repel_label_positions(init_lbl_pos, min_dx=0.72, min_dy=0.26, n_iter=200)
+    # Nudge UFIPRAZOLE cleanly left of bottom grey node & Omep -H2O up-right
+    if "2962" in rep_pos:
+        rep_pos["2962"] = np.array([rep_pos["2962"][0] - 0.85, rep_pos["2962"][1] - 0.10])
+    if "4157" in rep_pos:
+        rep_pos["4157"] = np.array([rep_pos["4157"][0] + 0.18, rep_pos["4157"][1] + 0.22])
+    rep_pos = repel_label_positions(rep_pos, min_dx=0.72, min_dy=0.26, n_iter=40)
     for n, lp in rep_pos.items():
         ax1.annotate(
             pretty_net_lbl[n],
             xy=pos[n],
             xytext=lp,
-            fontsize=7.0,
+            fontsize=7.6,
             fontweight="bold",
             ha="center",
             va="center",
-            arrowprops=dict(arrowstyle="-", color="#555555", lw=0.7, alpha=0.8),
-            bbox=dict(boxstyle="round,pad=0.16", fc="white", ec="#999999", alpha=0.92, lw=0.6),
+            arrowprops=dict(arrowstyle="->", color="#444444", lw=0.85, alpha=0.88),
+            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="#888888", alpha=0.95, lw=0.65),
+            zorder=7,
         )
     xs_a = [p[0] for p in pos.values()] + [p[0] for p in rep_pos.values()]
     ys_a = [p[1] for p in pos.values()] + [p[1] for p in rep_pos.values()]
-    ax1.set_xlim(min(xs_a) - 0.35, max(xs_a) + 0.35)
-    ax1.set_ylim(min(ys_a) - 0.25, max(ys_a) + 0.25)
-    ax1.set_title(f"A. Omeprazole Biotransformation Mass-Difference Network\n({H_bio.number_of_nodes()} unique nodes, {H_bio.number_of_edges()} exact-mass <4.5 mDa edges)")
+    ax1.set_xlim(min(xs_a) - 0.55, max(xs_a) + 0.55)
+    ax1.set_ylim(min(ys_a) - 0.30, max(ys_a) + 0.30)
+    ax1.set_title(
+        f"A. Omeprazole Biotransformation Mass-Difference Core\n(Connected core: {H_bio.number_of_nodes()} of {G_bio.number_of_nodes()} unique nodes, {H_bio.number_of_edges()} of {G_bio.number_of_edges()} <4.5 mDa edges)",
+        fontsize=10.5,
+    )
     ax1.axis("off")
 
     leg_a = [
-        mpatches.Patch(color=COL_OMEPR, label="M1: Monotonic (T0→T8)"),
-        mpatches.Patch(color=COL_QCMIX, label="M2: Mid-Late (T4–T5)"),
-        mpatches.Patch(color=COL_SUPP, label="M3: Early-Mid (T2–T3)"),
-        Line2D([0], [0], color=COL_OMEPR, lw=2.2, label="±O (Sulfoxide red/ox)"),
-        Line2D([0], [0], color=COL_DMSO, lw=2.2, label="±CH₂ (Methylation)"),
+        mpatches.Patch(color=COL_OMEPR, label="M1: Monotonic"),
+        mpatches.Patch(color=COL_QCMIX, label="M2: Mid-Late"),
+        mpatches.Patch(color=COL_SUPP, label="M3: Early-Mid"),
+        mpatches.Patch(color=COL_DMSO, label="M4: Depleted"),
+        mpatches.Patch(color="#8C8C8C", label="Other / Static"),
+        Line2D([0], [0], color=COL_OMEPR, lw=2.2, label="±O (Sulfoxide)"),
+        Line2D([0], [0], color=COL_DMSO, lw=2.2, label="±CH₂ (Methyl)"),
         Line2D([0], [0], color=COL_MED, lw=2.2, label="±H₂ (Redox)"),
-        Line2D([0], [0], color=COL_SUPP, lw=2.2, label="±S−O+H₂ (Rearrang.)"),
+        Line2D([0], [0], color=COL_SUPP, lw=2.2, label="±S−O+H₂"),
+        Line2D([0], [0], color=COL_FAIL, lw=2.2, label="±C–S Cleavage"),
+        Line2D([0], [0], color="#666666", lw=1.6, ls="--", label="Neg. corr. (r<0)"),
     ]
-    ax1.legend(handles=leg_a, loc="upper center", bbox_to_anchor=(0.5, -0.02), fontsize=7.4, ncol=3)
+    ax1.legend(handles=leg_a, loc="upper center", bbox_to_anchor=(0.5, -0.01), fontsize=7.6, ncol=4)
 
-    # Panel B: Endogenous Co-Abundance Network (Giant Connected Core Component for crisp hub clarity)
+    # Panel B: Endogenous Co-Abundance Network (Giant Connected Core Component)
     ax2 = fig.add_subplot(gs[1])
     G_endo = nx.read_graphml(NET_DIR / "endogenous_coabundance_network.graphml")
     H_endo = nx.Graph()
@@ -1272,7 +1333,6 @@ def make_fig08(res, t6, t7):
     for u, v, d in G_endo.edges(data=True):
         if abs(float(d["spearman_r"])) >= 0.78:
             H_endo.add_edge(u, v, **d)
-    # Extract giant connected component so isolated pairs don't squash the hub cluster
     largest_cc = max(nx.connected_components(H_endo), key=len)
     H_core = H_endo.subgraph(largest_cc).copy()
 
@@ -1300,7 +1360,7 @@ def make_fig08(res, t6, t7):
         alpha=0.94,
     )
     cbar2 = plt.colorbar(sc_n, ax=ax2, fraction=0.036, pad=0.02)
-    cbar2.set_label("Temporal Slope β_time (log₂ FC / hr)\nBlue = Consumed | Red = Produced", fontsize=8.2)
+    cbar2.set_label(r"Temporal Slope $\beta_{\mathrm{time}}$ ($\log_2$ FC / hr)" + "\nBlue = Consumed | Red = Produced", fontsize=8.5)
 
     hub_labels = {
         "9718": "15-HEDE (Hub, deg=47)",
@@ -1313,41 +1373,49 @@ def make_fig08(res, t6, t7):
         "9644": "3-OH-C17-Glycine",
         "267": "Guanine (Bridge hub)",
         "1294": "Phe-Pro (Consumed)",
-        "6368": "Cholic acid (Bile acid)",
     }
-    # Place hub labels radially outward from network centroid, then repel!
     cx = np.mean([p[0] for p in pos2.values()])
     cy = np.mean([p[1] for p in pos2.values()])
+    # Place ALL hub labels strictly on an outer halo ring (radius >= 1.25) so ZERO boxes cover core nodes!
     init_hub_pos = {}
     for n in hub_labels:
         if n in pos2:
             vec = np.array(pos2[n]) - np.array([cx, cy])
             norm = np.linalg.norm(vec) + 1e-6
-            # Push label cleanly to perimeter ring
-            init_hub_pos[n] = np.array(pos2[n]) + (vec / norm) * 0.42
-    rep_pos2 = repel_label_positions(init_hub_pos, min_dx=0.52, min_dy=0.20, n_iter=150)
+            init_hub_pos[n] = np.array([cx, cy]) + (vec / norm) * max(norm + 0.55, 1.32)
+    rep_pos2 = repel_label_positions(init_hub_pos, min_dx=0.76, min_dy=0.30, n_iter=200)
+    # Push Oleic acid cleanly further right & N-Acetylhistamine slightly lower-right so zero nodes/arrows overlap
+    if "9772" in rep_pos2:
+        rep_pos2["9772"] = np.array([rep_pos2["9772"][0] + 0.42, rep_pos2["9772"][1] + 0.12])
+    if "167" in rep_pos2:
+        rep_pos2["167"] = np.array([rep_pos2["167"][0] + 0.22, rep_pos2["167"][1] - 0.18])
+    rep_pos2 = repel_label_positions(rep_pos2, min_dx=0.76, min_dy=0.30, n_iter=80)
     for n, lp in rep_pos2.items():
         ax2.annotate(
             hub_labels[n],
             xy=pos2[n],
             xytext=lp,
-            fontsize=7.0,
+            fontsize=7.6,
             fontweight="bold",
             ha="center",
             va="center",
-            arrowprops=dict(arrowstyle="->", color="#444444", lw=0.8, alpha=0.85),
-            bbox=dict(boxstyle="round,pad=0.16", fc="white", ec="#888888", alpha=0.92, lw=0.6),
+            arrowprops=dict(arrowstyle="->", color="#333333", lw=0.85, alpha=0.88),
+            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="#888888", alpha=0.95, lw=0.65),
+            zorder=7,
         )
     xs_b = [p[0] for p in pos2.values()] + [p[0] for p in rep_pos2.values()]
     ys_b = [p[1] for p in pos2.values()] + [p[1] for p in rep_pos2.values()]
-    ax2.set_xlim(min(xs_b) - 0.35, max(xs_b) + 0.35)
-    ax2.set_ylim(min(ys_b) - 0.25, max(ys_b) + 0.25)
-    ax2.set_title(f"B. Endogenous Com20 Metabolic Co-Abundance Core\n(Giant component |r| ≥ 0.78: {H_core.number_of_nodes()} nodes, {H_core.number_of_edges()} edges; Full Q = 0.224)")
+    ax2.set_xlim(min(xs_b) - 0.55, max(xs_b) + 0.88)
+    ax2.set_ylim(min(ys_b) - 0.30, max(ys_b) + 0.30)
+    ax2.set_title(
+        f"B. Endogenous Com20 Metabolic Co-Abundance Core\n(Giant component |r| ≥ 0.78: {H_core.number_of_nodes()} nodes, {H_core.number_of_edges()} edges; Full Q = 0.224)",
+        fontsize=10.5,
+    )
     ax2.axis("off")
 
     fig.suptitle(
-        "Step 6 (Week 3 & Week 13) — Xenobiotic Biotransformation & Endogenous Metabolic Networks",
-        fontsize=13,
+        "Xenobiotic Biotransformation & Endogenous Com20 Metabolic Networks",
+        fontsize=12.8,
         fontweight="bold",
         y=0.99,
     )
@@ -1359,68 +1427,68 @@ def make_fig08(res, t6, t7):
 # FIGURE 9: Molecular Zoom-In — 2D Structures, Regioisomers, Kinetics & Isotope Proof
 # =====================================================================
 def make_fig09(X_raw, meta, X_pqn_all):
-    fig = plt.figure(figsize=(17.0, 9.6))
-    gs = gridspec.GridSpec(2, 3, height_ratios=[0.95, 1.05], hspace=0.38, wspace=0.28)
+    fig = plt.figure(figsize=(17.2, 9.6))
+    gs = gridspec.GridSpec(2, 3, height_ratios=[0.95, 1.08], hspace=0.40, wspace=0.34)
 
-    # Top row: 1x6 subgrid of RDKit 2D structures with crisp matplotlib Unicode captions!
+    # Top row: 1x6 subgrid of RDKit 2D structures with high-contrast headers!
     gs_top = gridspec.GridSpecFromSubplotSpec(1, 6, subplot_spec=gs[0, :], wspace=0.10)
     mols_info = [
-        ("1. Parent Omeprazole", "ID 2828 | m/z 346.1218\nC₁₇H₁₉N₃O₃S (GNPS 0.92)", "COc1ccc2nc([nH]c2c1)S(=O)Cc1ncc(C)c(OC)c1C", "#333333"),
+        ("1. Parent Omeprazole", "ID 2828 | m/z 346.1218\nC₁₇H₁₉N₃O₃S (GNPS 0.92)", "COc1ccc2nc([nH]c2c1)S(=O)Cc1ncc(C)c(OC)c1C", "#222222"),
         ("2. Ufiprazole (−O)", "ID 2962 | m/z 330.1270\nC₁₇H₁₉N₃O₂S | +9× (4.9×10⁸)", "COc1ccc2nc([nH]c2c1)SCc1ncc(C)c(OC)c1C", COL_OMEPR),
         ("3. 4-Desmethyl (−CH₂)", "ID 2465 | m/z 316.1113\nC₁₆H₁₇N₃O₂S (GNPS 0.87)", "COc1ccc2nc([nH]c2c1)SCc1ncc(C)c(O)c1C", COL_DMSO),
         ("4. 5-MeO-2-MBI (C–S)", "ID 2480 | m/z 181.0430\nC₈H₈N₂OS | ³⁴S 4.2% (1S)", "COc1ccc2[nH]c(S)nc2c1", COL_MED),
         ("5. Benz-Me-Ufiprazole*", "ID 3605 | m/z 344.1427\nFrags: 194.051 + 151.099", "COc1ccc2nc(n(C)c2c1)SCc1ncc(C)c(OC)c1C", COL_SUPP),
-        ("6. Pyr-Me-Ufiprazole*", "ID 2500 | m/z 344.1426\nFrags: 180.035 + 165.115", "COc1ccc2nc([nH]c2c1)SCc1ncc(C)c(OCC)c1C", COL_QCMIX),
+        ("6. Pyr-Me-Ufiprazole*", "ID 2500 | m/z 344.1426\nFrags: 180.035 + 165.115", "COc1ccc2nc([nH]c2c1)SCc1ncc(C)c(OCC)c1C", "#8C510A"),
     ]
     for idx_m, (head, sub, smi, accent) in enumerate(mols_info):
         ax_m = fig.add_subplot(gs_top[0, idx_m])
         mol = Chem.MolFromSmiles(smi)
-        img = Draw.MolToImage(mol, size=(340, 240))
+        img = Draw.MolToImage(mol, size=(360, 250))
         ax_m.imshow(img)
-        ax_m.set_title(head, fontsize=8.8, fontweight="bold", color=accent, pad=4)
-        ax_m.set_xlabel(sub, fontsize=7.6, labelpad=3, color="#222222")
+        ax_m.set_title(head, fontsize=9.0, fontweight="bold", color=accent, pad=8)
+        ax_m.set_xlabel(sub, fontsize=7.9, labelpad=5, color="#222222")
         ax_m.set_xticks([])
         ax_m.set_yticks([])
         for sp in ax_m.spines.values():
             sp.set_visible(True)
             sp.set_edgecolor(accent)
-            sp.set_linewidth(1.1)
+            sp.set_linewidth(1.2)
     fig.text(
         0.5,
-        0.925,
+        0.928,
         "A. Anaerobic Com20 Omeprazole Biotransformation Cascade (RDKit 2D Structures; *putative regioisomers localized via co-eluting IIMN fragments)",
         ha="center",
         fontsize=10.8,
         fontweight="bold",
     )
 
-    # Bottom-left: Quantitative T0-T8 trajectories of key cascade species
+    # Bottom-left: Quantitative T0-T8 trajectories — clear lower band for legend (zero curve overlap!)
     ax_bl = fig.add_subplot(gs[1, 0])
     bac = meta[(meta["bacteria"] == "Yes") & (~meta["is_failed_injection"])].copy()
     omepr = bac[bac["drug"] == "Omeprazole"]
     cascade_plot = [
-        (2962, "Ufiprazole (ID 2962, m/z 330.13)", COL_OMEPR, "o", "-"),
-        (3605, "Benz-Me-Ufip. (ID 3605, m/z 344.14)", COL_DMSO, "s", "-"),
-        (1677, "Me-5-MeO-2-MBI (ID 1677, m/z 195.06)", COL_QCMIX, "^", "-"),
-        (2480, "5-MeO-2-MBI (ID 2480, m/z 181.04)", COL_MED, "D", "-"),
-        (2368, "Unknown 2S (ID 2368, m/z 274.06)", COL_SUPP, "P", "-"),
-        (4470, "Transient (ID 4470, m/z 328.13)", "#666666", "v", "--"),
+        (2962, "Ufiprazole (2962)", COL_OMEPR, "o", "-"),
+        (3605, "Benz-Me-Ufip (3605)", COL_DMSO, "s", "-"),
+        (1677, "Me-5-MeO-MBI (1677)", "#8C510A", "^", "-"),
+        (2480, "5-MeO-2-MBI (2480)", COL_MED, "D", "-"),
+        (2368, "Unknown 2S (2368)", COL_SUPP, "P", "-"),
+        (4470, "Transient (4470)", "#555555", "v", "--"),
     ]
     for fid, lbl, col, mk, ls in cascade_plot:
         vals = X_pqn_all.loc[fid, omepr["filename"].tolist()].values
         df_t = pd.DataFrame({"t": omepr["time_num"].values, "v": vals})
         g = df_t.groupby("t")["v"]
-        ax_bl.plot(g.mean().index, np.log10(g.mean().values + 1), color=col, lw=2.1, marker=mk, ms=4.8, ls=ls, label=lbl)
+        ax_bl.plot(g.mean().index, np.log10(g.mean().values + 1), color=col, lw=2.2, marker=mk, ms=4.8, ls=ls, label=lbl)
     ax_bl.set_xlabel("Incubation Time (hours, Omeprazole)")
-    ax_bl.set_ylabel("log₁₀(PQN Peak Area + 1)")
+    ax_bl.set_ylabel(r"$\log_{10}$(PQN Peak Area + 1)")
     ax_bl.set_xticks(range(9))
     ax_bl.set_xticklabels([f"T{t}" for t in range(9)])
-    ax_bl.set_ylim(4.8, 9.0)
-    ax_bl.set_title("B. Cascade Kinetics in Omeprazole (T0–T8)")
-    ax_bl.legend(loc="lower right", fontsize=7.2)
+    ax_bl.set_ylim(4.0, 9.15)
+    ax_bl.set_title("B. Cascade Kinetics in Omeprazole (T0–T8)", fontsize=10.6)
+    ax_bl.legend(loc="lower center", ncol=2, fontsize=7.5, framealpha=0.95)
     ax_bl.grid(alpha=0.22, linestyle="--")
 
-    # Bottom-middle: RDKit Morgan Fingerprint Tanimoto Similarity Matrix
+    # Bottom-middle: RDKit Morgan Fingerprint Tanimoto Similarity Matrix (clean 0.55 white-text threshold!)
     ax_bm = fig.add_subplot(gs[1, 1])
     sim_mols = [
         ("Omeprazole", "COc1ccc2nc([nH]c2c1)S(=O)Cc1ncc(C)c(OC)c1C"),
@@ -1443,22 +1511,22 @@ def make_fig09(X_raw, meta, X_pqn_all):
     lbls_s = [k for k, _ in sim_mols]
     ax_bm.set_xticks(range(n_s))
     ax_bm.set_yticks(range(n_s))
-    ax_bm.set_xticklabels(lbls_s, rotation=40, ha="right", fontsize=7.6)
-    ax_bm.set_yticklabels(lbls_s, fontsize=7.6)
+    ax_bm.set_xticklabels(lbls_s, rotation=40, ha="right", fontsize=7.8)
+    ax_bm.set_yticklabels(lbls_s, fontsize=7.8)
     for i in range(n_s):
         for j in range(n_s):
-            ax_bm.text(j, i, f"{Smat[i,j]:.2f}", ha="center", va="center", fontsize=6.7, color="white" if Smat[i, j] > 0.62 else "black")
+            ax_bm.text(j, i, f"{Smat[i,j]:.2f}", ha="center", va="center", fontsize=6.9, fontweight="bold" if Smat[i, j] >= 0.55 else "normal", color="white" if Smat[i, j] >= 0.55 else "#111111")
     plt.colorbar(im_s, ax=ax_bm, fraction=0.046, pad=0.03, label="Tanimoto Similarity")
-    ax_bm.set_title("C. RDKit Morgan Structural Similarity")
+    ax_bm.set_title("C. RDKit Morgan Structural Similarity", fontsize=10.6)
 
-    # Bottom-right: 34S Isotope Confirmation & False-Positive Sertindole Audit
+    # Bottom-right: 34S Isotope Confirmation & False-Positive Sertindole Audit (zero bar/label collisions!)
     ax_br = fig.add_subplot(gs[1, 2])
     omepr_files = omepr["filename"].tolist()
     iso_items = [
-        ("5-MeO-2-MBI\n(ID 2480, 1S)", 100.0 * X_raw.loc[2479, omepr_files].max() / X_raw.loc[2480, omepr_files].max(), 4.25, COL_MED),
-        ("Unknown 242.12\n(ID 1775, 1S)", 100.0 * X_raw.loc[1770, omepr_files].max() / X_raw.loc[1775, omepr_files].max(), 4.25, COL_DMSO),
-        ("Unknown 274.06\n(ID 2368, 2S)", 100.0 * X_raw.loc[2369, omepr_files].max() / X_raw.loc[2368, omepr_files].max(), 8.50, COL_SUPP),
-        ("'Sertindole'?\n(ID 5664, 1 Cl?)", 0.0, 32.0, COL_FAIL),
+        ("5-MeO-2-MBI\nID 2480 (1S)", 100.0 * X_raw.loc[2479, omepr_files].max() / X_raw.loc[2480, omepr_files].max(), 4.25, COL_MED),
+        ("ID 1775\n242.12 (1S)", 100.0 * X_raw.loc[1770, omepr_files].max() / X_raw.loc[1775, omepr_files].max(), 4.25, COL_DMSO),
+        ("ID 2368\n274.06 (2S)", 100.0 * X_raw.loc[2369, omepr_files].max() / X_raw.loc[2368, omepr_files].max(), 8.50, COL_SUPP),
+        ("'Sertindole'?\nID 5664 (Cl?)", 0.0, 32.0, COL_FAIL),
     ]
     x_i = np.arange(len(iso_items))
     obs_v = [it[1] for it in iso_items]
@@ -1468,29 +1536,29 @@ def make_fig09(X_raw, meta, X_pqn_all):
     ax_br.bar(x_i - w / 2, obs_v, w, color=cols_i, alpha=0.90, label="Observed M+2 / M (%)")
     ax_br.bar(x_i + w / 2, exp_v, w, color="#DDDDDD", edgecolor="#444444", hatch="//", label="Theoretical M+2 (%)")
     for idx_i, (ov, ev) in enumerate(zip(obs_v, exp_v)):
-        ax_br.text(idx_i - w / 2, ov + 0.7, f"{ov:.1f}%", ha="center", va="bottom", fontsize=7.8, fontweight="bold", color=cols_i[idx_i])
-        ax_br.text(idx_i + w / 2, ev + 0.7, f"{ev:.1f}%", ha="center", va="bottom", fontsize=7.8, color="#333333")
+        ax_br.text(idx_i - w / 2, ov + 0.8, f"{ov:.1f}%", ha="center", va="bottom", fontsize=7.9, fontweight="bold", color=cols_i[idx_i])
+        ax_br.text(idx_i + w / 2, ev + 0.8, f"{ev:.1f}%", ha="center", va="bottom", fontsize=7.9, color="#333333")
     ax_br.annotate(
         "Missing 32% ³⁷Cl peak\nproves 'Sertindole' is a\nFALSE library match!",
-        xy=(3 - w / 2, 0.8),
-        xytext=(1.65, 22.5),
-        fontsize=7.8,
+        xy=(3 - w / 2, 3.2),
+        xytext=(0.75, 22.0),
+        fontsize=7.9,
         fontweight="bold",
         color=COL_FAIL,
-        arrowprops=dict(arrowstyle="->", color=COL_FAIL, lw=1.3),
+        arrowprops=dict(arrowstyle="->", color=COL_FAIL, lw=1.35, connectionstyle="arc3,rad=-0.22"),
         bbox=dict(boxstyle="round,pad=0.3", fc="#FFF5F5", ec=COL_FAIL, lw=0.9),
     )
     ax_br.set_xticks(x_i)
-    ax_br.set_xticklabels([it[0] for it in iso_items], fontsize=7.8)
+    ax_br.set_xticklabels([it[0] for it in iso_items], fontsize=8.0)
     ax_br.set_ylabel("M+2 Isotope Relative Intensity (%)")
-    ax_br.set_ylim(0, 37)
-    ax_br.set_title("D. M+2 Isotope Verification (³⁴S) & False-Hit Audit")
-    ax_br.legend(loc="upper left", fontsize=7.6)
+    ax_br.set_ylim(0, 38.5)
+    ax_br.set_title("D. ³⁴S Isotope Proof & False-Hit Audit", fontsize=10.6)
+    ax_br.legend(loc="upper left", fontsize=7.8)
     ax_br.grid(axis="y", alpha=0.22, linestyle="--")
 
     fig.suptitle(
-        "Step 7 (Week 2 & Week 8) — Molecular Structure Zoom-In, Regioisomerism & Isotope Verification",
-        fontsize=13,
+        "Molecular Structure Zoom-In, Regioisomerism & M+2 Isotope Verification",
+        fontsize=12.8,
         fontweight="bold",
         y=0.99,
     )
